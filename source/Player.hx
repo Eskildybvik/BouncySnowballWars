@@ -37,7 +37,7 @@ class Player extends FlxSprite {
 		offset.set(11, 1);
 
 		drag.set(PLAYER_SPEED*8, PLAYER_SPEED*8);
-		gamepad = FlxG.gamepads.firstActive; // Set manually for multple players
+		// gamepad = FlxG.gamepads.firstActive; // Set manually for multple players
 		if (gamepad != null) {
 			gamepad.deadZone = 0.3;
 		}

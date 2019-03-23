@@ -35,6 +35,7 @@ class PlayState extends FlxState {
 	private var midline:FlxSprite;
 	private var tempWalls:FlxSpriteGroup;
 	private var leftPlayer:Player;
+	private var rightPlayer:Player;
 
 	override public function create():Void {	
 		super.create();
@@ -48,6 +49,13 @@ class PlayState extends FlxState {
 		leftPlayer = new Player(128, 128);
 		add(leftPlayer.snowballs);
 		add(leftPlayer);
+
+		rightPlayer = new Player(FlxG.width - 192, 128);
+		rightPlayer.gamepad = FlxG.gamepads.firstActive;
+		rightPlayer.flipX = true;
+		// Comment out these two lines to disable player 2
+		add(rightPlayer.snowballs);
+		add(rightPlayer);
 
 		// temp walls
 		tempWalls = new FlxSpriteGroup(0, 0);
@@ -86,6 +94,12 @@ class PlayState extends FlxState {
 		FlxG.overlap(leftPlayer.snowballs, tempWalls, FlxObject.updateTouchingFlags);
 		FlxG.overlap(leftPlayer.snowballs, obstacleMap, FlxObject.updateTouchingFlags);
 		FlxG.collide(leftPlayer, obstacleMap);
+
+		FlxG.collide(rightPlayer, tempWalls);
+		FlxG.collide(rightPlayer, midline);
+		FlxG.overlap(rightPlayer.snowballs, tempWalls, FlxObject.updateTouchingFlags);
+		FlxG.overlap(rightPlayer.snowballs, obstacleMap, FlxObject.updateTouchingFlags);
+		FlxG.collide(rightPlayer, obstacleMap);
 
 		// obstacle placement
 		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth) * tileWidth + xOffset;
