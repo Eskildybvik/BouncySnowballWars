@@ -115,14 +115,14 @@ class PlayState extends FlxState {
 		FlxG.collide(leftPlayer, midline);
 		FlxG.overlap(leftPlayer.snowballs, tempWalls, FlxObject.updateTouchingFlags);
 		FlxG.overlap(leftPlayer.snowballs, obstacleMapLeft, FlxObject.updateTouchingFlags);
-		FlxG.overlap(rightPlayer.snowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
+		FlxG.overlap(leftPlayer.snowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
 		FlxG.collide(leftPlayer, obstacleMapLeft);
 
 		FlxG.collide(rightPlayer, tempWalls);
 		FlxG.collide(rightPlayer, midline);
 		FlxG.overlap(rightPlayer.snowballs, tempWalls, FlxObject.updateTouchingFlags);
 		FlxG.overlap(leftPlayer.snowballs, obstacleMapLeft, FlxObject.updateTouchingFlags);
-		FlxG.overlap(rightPlayer.snowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
+		FlxG.overlap(leftPlayer.snowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
 		FlxG.collide(rightPlayer, obstacleMapRight);
 
 		// obstacle placement
