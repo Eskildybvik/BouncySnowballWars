@@ -17,17 +17,17 @@ class PlayState extends FlxState {
 	private var snowMap:FlxTilemap;
 	private var leftPlayerHighlightBox:FlxSprite;
 	private var obstacleMapData:Array<Array<Int>> = [
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,1,0,0,0,0],
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,1,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,-9,0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,1,0,-9,0,1,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,1,0,-9,0,1,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,1,0,-9,0,1,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,-9,0,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,1,0,0,0,0],
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,1,0,0,0,0],
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,0,0,0,0,1]];	
+	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,1,0,0,0],
+	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,1,0,0,0],
+	[0,0,0,0,0,0,0,0,0,-9,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,1,0,-9,0,1,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,1,0,-9,0,1,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,1,0,-9,0,1,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,-9,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,1,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,1,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,0,0,0,0]];	
 
 	private var wallThickness:Int = 7;
 	private var xOffset:Int = 32;
@@ -83,17 +83,16 @@ class PlayState extends FlxState {
 		FlxG.collide(leftPlayer, tempWalls);
 		FlxG.collide(leftPlayer, midline);
 		FlxG.collide(leftPlayer.snowballs, tempWalls);
-
 		FlxG.collide(leftPlayer.snowballs, leftPlayer); // må fikse logikk, slik at ballen stopper i spiller 
 
 		FlxG.collide(leftPlayer, obstacleMap);
 
 		// obstacle placement
-		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x - xOffset)/tileWidth + 1) * tileWidth + xOffset;
+		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth) * tileWidth + xOffset;
 		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * tileHeight + wallThickness;
 		
 		if (FlxG.keys.pressed.B) {
-			obstacleMap.setTile(Math.ceil((leftPlayer.x - xOffset)/tileWidth) + 1, Math.round(leftPlayer.y/tileHeight), 1);
+			obstacleMap.setTile(Math.ceil((leftPlayer.x)/tileWidth ), Math.round(leftPlayer.y/tileHeight), 1);
 		}
 	}
 }
