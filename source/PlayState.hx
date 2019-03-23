@@ -24,10 +24,9 @@ class PlayState extends FlxState {
 
 	private var obstacles:FlxTypedSpriteGroup<Obstacle>;
 
-	private var wallThickness:Int = 7;
-	private var xOffset:Int = 58;
+	private var walls:FlxTilemap;
 	private var midline:FlxSprite;
-	private var walls:FlxSpriteGroup;
+
 	private var leftPlayer:Player;
 	private var rightPlayer:Player;
 
@@ -44,6 +43,20 @@ class PlayState extends FlxState {
 
 	override public function create():Void {	
 		super.create();
+
+		walls = new FlxTilemap();
+		var tempArray = []; 
+		tempArray.push([for (i in 0...22) 1]);
+		for (i in 0...11) {
+			var tempTempArray = [for (j in 0...20) 0];
+			tempTempArray.push(1);
+			tempTempArray.unshift(1);
+			tempArray.push(tempTempArray);
+		}
+		tempArray.push([for (i in 0...22) 1]);
+		walls.loadMapFrom2DArray(tempArray, "assets/images/ice_wall.png", 64, 64, null, 0, 1, 1);
+		add(walls);
+
 		midline = new FlxSprite(0, 0);
 		midline.makeGraphic(8, FlxG.height, FlxColor.RED);
 		midline.screenCenter(X);
@@ -64,21 +77,6 @@ class PlayState extends FlxState {
 		add(rightPlayer.snowballs);
 		add(rightPlayer);
 
-		walls = new FlxSpriteGroup(0, 0);
-		var topWall = new FlxSprite(0, 0);
-		topWall.makeGraphic(FlxG.width, wallThickness + 1, FlxColor.GREEN);
-		walls.add(topWall);
-		var leftWall = new FlxSprite(0, wallThickness);
-		leftWall.makeGraphic(wallThickness, FlxG.height - (wallThickness * 2), FlxColor.GREEN);
-		walls.add(leftWall);
-		var bottomWall = new FlxSprite(0, FlxG.height - wallThickness);
-		bottomWall.makeGraphic(FlxG.width, wallThickness, FlxColor.GREEN);
-		walls.add(bottomWall);
-		var rightWall = new FlxSprite(FlxG.width - wallThickness, wallThickness);
-		rightWall.makeGraphic((wallThickness * 2), FlxG.height - (wallThickness * 2), FlxColor.GREEN);
-		walls.add(rightWall);
-		add(walls);
-		walls.immovable = true;
 
 		obstacles = new FlxTypedSpriteGroup<Obstacle>(0, 0);
 		add(obstacles);
@@ -147,8 +145,8 @@ class PlayState extends FlxState {
 		});
 
 		// obstacle placement
-		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth - 0.5) * tileWidth + xOffset;
-		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * tileHeight + wallThickness + 1;
+		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth - 0.5) * 64;
+		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * 64;
 		
 		// Checks if player has pressed the build button, and builds on his side of them map
 		if (leftPlayer.building && leftPlayerHighlightBox.x+16 < midline.x) {
@@ -158,7 +156,7 @@ class PlayState extends FlxState {
 		}
 
 		rightPlayerHighlightBox.x = Math.floor((rightPlayer.x)/tileWidth - 0.5) * tileWidth + 5;
-		rightPlayerHighlightBox.y = Math.round(rightPlayer.y/tileHeight) * tileHeight + wallThickness + 1;
+		rightPlayerHighlightBox.y = Math.round(rightPlayer.y/tileHeight) * 64;
 		
 		if (rightPlayer.building && rightPlayerHighlightBox.x > midline.x) {
 			var temp = new Obstacle(rightPlayerHighlightBox.x, rightPlayerHighlightBox.y);
