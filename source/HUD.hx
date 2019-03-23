@@ -33,9 +33,9 @@ class HUD extends FlxSpriteGroup {
 		leftPlayerHearts = new FlxTypedSpriteGroup<Heart>(0, 0);
 		rightPlayerHearts = new FlxTypedSpriteGroup<Heart>(0, 0);
 		for (i in 0...5) {
-			var tempLeft = new Heart(OFFSET + i*32, OFFSET + 32);
+			var tempLeft = new Heart(OFFSET + i*64, OFFSET + 32);
 			leftPlayerHearts.add(tempLeft);
-			var tempRight = new Heart(FlxG.width - OFFSET - (5-i)*32, OFFSET + 32);
+			var tempRight = new Heart(FlxG.width - OFFSET - (5-i)*64, OFFSET + 32);
 			rightPlayerHearts.add(tempRight);
 		}
 		add(leftPlayerHearts);
