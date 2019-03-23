@@ -38,7 +38,6 @@ class Player extends FlxSprite {
 	}
 
 	private function controls() {
-		var tShoot = false;
 		if (gamepad == null) {
 			keyboardMovement();
 			if (FlxG.mouse.justPressed) {
