@@ -18,6 +18,7 @@ class PlayState extends FlxState {
 		add(midline);
 
 		add(new Player(128, 128)); // temporary
+		add(new SnowBall(156, 228));
 	}
 
 	override public function update(elapsed:Float):Void {
