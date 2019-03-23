@@ -53,6 +53,8 @@ class MenuState extends FlxState {
 
     private function startGame():Void{
         game = new PlayState();
+        game.leftInput = leftInput;
+        game.rightInput = rightInput;
         FlxG.switchState(game);
     }
 
