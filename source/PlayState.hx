@@ -52,7 +52,7 @@ class PlayState extends FlxState {
 	private var wallThickness:Int = 7;
 	private var xOffset:Int = 58;
 	private var midline:FlxSprite;
-	private var tempWalls:FlxSpriteGroup;
+	private var walls:FlxSpriteGroup;
 	private var leftPlayer:Player;
 	private var rightPlayer:Player;
 
@@ -86,21 +86,21 @@ class PlayState extends FlxState {
 		add(rightPlayer);
 
 		// temp walls
-		tempWalls = new FlxSpriteGroup(0, 0);
+		walls = new FlxSpriteGroup(0, 0);
 		var topWall = new FlxSprite(0, 0);
 		topWall.makeGraphic(FlxG.width, wallThickness + 1, FlxColor.GREEN);
-		tempWalls.add(topWall);
+		walls.add(topWall);
 		var leftWall = new FlxSprite(0, wallThickness);
 		leftWall.makeGraphic(wallThickness, FlxG.height - (wallThickness * 2), FlxColor.GREEN);
-		tempWalls.add(leftWall);
+		walls.add(leftWall);
 		var bottomWall = new FlxSprite(0, FlxG.height - wallThickness);
 		bottomWall.makeGraphic(FlxG.width, wallThickness, FlxColor.GREEN);
-		tempWalls.add(bottomWall);
+		walls.add(bottomWall);
 		var rightWall = new FlxSprite(FlxG.width - wallThickness, wallThickness);
 		rightWall.makeGraphic((wallThickness * 2), FlxG.height - (wallThickness * 2), FlxColor.GREEN);
-		tempWalls.add(rightWall);
-		add(tempWalls);
-		tempWalls.immovable = true;
+		walls.add(rightWall);
+		add(walls);
+		walls.immovable = true;
 
 		// tilemap stuff begins here
 		obstacleMapLeft = new FlxTilemap();
@@ -138,17 +138,17 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 
-		FlxG.collide(leftPlayer, tempWalls);
+		FlxG.collide(leftPlayer, walls);
 		FlxG.collide(leftPlayer, midline);
 		FlxG.collide(leftPlayer, obstacleMapLeft);
 
-		FlxG.collide(rightPlayer, tempWalls);
+		FlxG.collide(rightPlayer, walls);
 		FlxG.collide(rightPlayer, midline);
 		FlxG.collide(rightPlayer, obstacleMapRight);
 
 		FlxG.overlap(allSnowballs, obstacleMapLeft, FlxObject.updateTouchingFlags);
 		FlxG.overlap(allSnowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
-		FlxG.overlap(allSnowballs, tempWalls, FlxObject.updateTouchingFlags);
+		FlxG.overlap(allSnowballs, walls, FlxObject.updateTouchingFlags);
 
 		// FlxG.collide(allSnowballs, obstacleMapLeft, tileHandler.leftTileHit;
 		// FlxG.collide(allSnowballs, obstacleMapRight, tileHandler.rightTileHit);
