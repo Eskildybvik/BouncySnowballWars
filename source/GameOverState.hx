@@ -20,7 +20,7 @@ class GameOverState extends FlxState {
 		add(winnerText);
 
 		var restartText = new FlxText(0, 500, 0, "", 24);
-		restartText.text = "Press any button to restart";
+		restartText.text = "Press R to restart";
 		restartText.screenCenter(X);
 		add(restartText);
 	}
@@ -29,7 +29,7 @@ class GameOverState extends FlxState {
 		if (gamepad == null) {
 			gamepad = FlxG.gamepads.getFirstActiveGamepad();
 		}
-		if (FlxG.keys.justReleased.ANY || gamepad != null ? gamepad.justReleased.ANY : false) {
+		if (FlxG.keys.justReleased.R || gamepad != null ? gamepad.anyJustReleased([A, B]) : false) {
 			Reg.leftPlayerHearts = Reg.rightPlayerHearts = 5;
 			Reg.leftPlayerSnow = Reg.rightPlayerSnow = 30;
 			FlxG.resetGame();
