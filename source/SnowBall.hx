@@ -1,13 +1,14 @@
 package;
 
 import flixel.FlxSprite;
-import flixel.util.FlxColor;
 import flixel.FlxObject;
 
 
 class SnowBall extends FlxSprite {
 	private var framesUntilTouchCheck:Int = 0; // Jallafix for bad collisions
 	private var bouncesLeft:Int = 3;
+	public var inUse:Bool = false;
+	private var framesUntilActive = 5;
 
 	public function new(x:Float, y:Float) {
 		super(x, y);
@@ -15,6 +16,9 @@ class SnowBall extends FlxSprite {
 	}
 
 	override public function update(elapsed:Float) {
+		if (framesUntilActive > 0) framesUntilActive--;
+		else inUse = true;
+
 		if (framesUntilTouchCheck == 0) {
 			if (isTouching(FlxObject.LEFT)) {
 				velocity.set(Math.abs(velocity.x), velocity.y);
