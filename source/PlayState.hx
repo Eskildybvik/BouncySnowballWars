@@ -13,6 +13,7 @@ import flixel.util.FlxSpriteUtil;
 import flixel.input.gamepad.FlxGamepad;
 
 class PlayState extends FlxState {
+
 	// for obstacles and snow tiles
 	static inline var tileWidth:Int = 64;
 	static inline var tileHeight:Int = 64;
@@ -36,6 +37,9 @@ class PlayState extends FlxState {
 	//For controlls
 	public var leftInput:FlxGamepad = null;
 	public var rightInput:FlxGamepad = null;
+
+	//For tiles
+	private var tileManager:TileManager;
 	
 
 	override public function create():Void {	
@@ -45,6 +49,8 @@ class PlayState extends FlxState {
 		midline.screenCenter(X);
 		add(midline);
 		midline.immovable = true;
+
+		tileManager = new TileManager(this);
 
 		leftPlayer = new Player(128, 128);
 		leftPlayer.gamepad = leftInput;
