@@ -1,5 +1,6 @@
 package;
 
+import flixel.tile.FlxTile;
 import flixel.FlxObject;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
@@ -16,13 +17,13 @@ class PlayState extends FlxState {
 	// for obstacles and snow tiles
 	static inline var tileWidth:Int = 64;
 	static inline var tileHeight:Int = 64;
-	private var obstacleMapLeft:FlxTilemap;
-	private var obstacleMapRight:FlxTilemap;
+	public var obstacleMapLeft:FlxTilemap;
+	public var obstacleMapRight:FlxTilemap;
 	private var snowMapLeft:FlxTilemap;
 	private var snowMapRight:FlxTilemap;
 	private var leftPlayerHighlightBox:FlxSprite;
 	private var rightPlayerHighlightBox:FlxSprite;
-	private var obstacleMapLeftData:Array<Array<Int>> = [
+	public var obstacleMapLeftData:Array<Array<Int>> = [
 	[0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,1,0,0,0,0],
 	[0,0,0,0,1,0,0,0,0],
@@ -35,13 +36,13 @@ class PlayState extends FlxState {
 	[0,0,0,0,1,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0]];	
 
-	private var obstacleMapRightData:Array<Array<Int>> = [
+	public var obstacleMapRightData:Array<Array<Int>> = [
 	[0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,1,0,0,0,0],
 	[0,0,0,0,1,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0],
 	[0,1,0,0,0,0,0,0,0],
-	[1,1,0,0,0,0,0,0,0],
+	[0,1,0,0,0,0,0,0,0],
 	[0,1,0,0,0,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,1,0,0,0,0],
@@ -55,7 +56,8 @@ class PlayState extends FlxState {
 	private var leftPlayer:Player;
 	private var rightPlayer:Player;
 
-	private var allSnowballs:FlxTypedGroup<FlxTypedSpriteGroup<SnowBall>>;
+	public var allSnowballs:FlxTypedGroup<FlxTypedSpriteGroup<SnowBall>>;
+	public var tileHandler:Tiles;
 	
 	//For controlls
 	public var leftInput:FlxGamepad = null;
@@ -128,6 +130,8 @@ class PlayState extends FlxState {
 		allSnowballs.add(leftPlayer.snowballs);
 		allSnowballs.add(rightPlayer.snowballs);
 
+		tileHandler = new Tiles();
+
 		add(new HUD());
 	}
 
@@ -145,6 +149,9 @@ class PlayState extends FlxState {
 		FlxG.overlap(allSnowballs, obstacleMapLeft, FlxObject.updateTouchingFlags);
 		FlxG.overlap(allSnowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
 		FlxG.overlap(allSnowballs, tempWalls, FlxObject.updateTouchingFlags);
+
+		// FlxG.collide(allSnowballs, obstacleMapLeft, tileHandler.leftTileHit;
+		// FlxG.collide(allSnowballs, obstacleMapRight, tileHandler.rightTileHit);
 
 		FlxG.overlap(leftPlayer, allSnowballs, function(p:Player, s:SnowBall) {
 			if (!s.inUse) return;
@@ -178,5 +185,5 @@ class PlayState extends FlxState {
 		if (rightPlayer.building) {
 			obstacleMapRight.setTile(Math.floor((rightPlayer.x - (wallThickness * 2 + 64 * 9 + 54))/tileWidth - 0.5), Math.round(rightPlayer.y/tileHeight), 1);
 		}
-	}
+	}	
 }
