@@ -1,5 +1,7 @@
 package;
 
+import flixel.addons.display.FlxBackdrop;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxSort;
 import flixel.FlxObject;
 import flixel.group.FlxGroup;
@@ -93,6 +95,10 @@ class PlayState extends FlxState {
 		allSnowballs = new FlxTypedGroup<FlxTypedSpriteGroup<SnowBall>>();
 		allSnowballs.add(leftPlayer.snowballs);
 		allSnowballs.add(rightPlayer.snowballs);
+
+		var snowParticles = new FlxBackdrop("assets/images/Near Snow.png", 1, 1, true, true);
+		FlxTween.tween(snowParticles, {x: FlxG.width, y:FlxG.height * 5}, 30, {type: FlxTweenType.LOOPING, ease: flixel.tweens.FlxEase.sineInOut});
+		add(snowParticles);
 
 		add(new HUD());
 	}
