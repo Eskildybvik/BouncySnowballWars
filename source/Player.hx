@@ -13,6 +13,7 @@ class Player extends FlxSprite {
 	public var snowballs:FlxTypedSpriteGroup<SnowBall>;
 	public var gamepad:FlxGamepad = null;
 	public var building:Bool = false;
+	private var throwCooldown:Int = 0;
 
 	public function new(x:Float, y:Float) {
 		super(x, y);
@@ -52,6 +53,7 @@ class Player extends FlxSprite {
 	override public function update(elapsed:Float) {
 		controls();
 		animate();
+		throwCooldown--;
 		super.update(elapsed);
 	}
 
@@ -123,6 +125,8 @@ class Player extends FlxSprite {
 	}
 
 	private function mouseShoot() {
+		if (throwCooldown > 0) return;
+		throwCooldown = 20;
 		// Calculates the shooting angle based on the mouse
 		var tAngle = Math.atan2(FlxG.mouse.y - y-height/2, FlxG.mouse.x - x-width/2) * 57.29578;
 		var snowball = snowballs.recycle();
@@ -141,6 +145,8 @@ class Player extends FlxSprite {
 	}
 
 	private function gamepadShoot() {
+		if (throwCooldown > 0) return;
+		throwCooldown = 20;
 		var rightStickVector = gamepad.getAnalogAxes(FlxGamepadInputID.RIGHT_ANALOG_STICK);
 		if (rightStickVector.x != 0 || rightStickVector.y != 0) { // A direction is required to shoot
 			var snowball = snowballs.recycle();
