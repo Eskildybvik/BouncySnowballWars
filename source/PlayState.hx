@@ -1,5 +1,6 @@
 package;
 
+import flixel.input.gamepad.id.LogitechID;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -15,6 +16,8 @@ class PlayState extends FlxState {
 		midline.makeGraphic(8, FlxG.height, FlxColor.RED);
 		midline.screenCenter(X);
 		add(midline);
+
+		add(new Player(128, 128)); // temporary
 	}
 
 	override public function update(elapsed:Float):Void {
