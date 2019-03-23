@@ -121,6 +121,8 @@ class PlayState extends FlxState {
 		// snowballs
 		// allSnowballs.add(leftPlayer.snowballs);
 		// allSnowballs.add(rightPlayer.snowballs);
+
+		add(new HUD());
 	}
 
 	override public function update(elapsed:Float):Void {
