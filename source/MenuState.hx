@@ -1,9 +1,6 @@
 package;
 
-import flixel.group.FlxSpriteGroup;
-import flixel.util.FlxColor;
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.text.FlxText;
