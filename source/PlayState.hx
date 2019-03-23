@@ -34,7 +34,6 @@ class PlayState extends FlxState {
 	private var midline:FlxSprite;
 	private var tempWalls:FlxSpriteGroup;
 	private var leftPlayer:Player;
-	private var snowBall:SnowBall;
 
 	override public function create():Void {	
 		super.create();
@@ -48,9 +47,6 @@ class PlayState extends FlxState {
 		leftPlayer = new Player(128, 128);
 		add(leftPlayer.snowballs);
 		add(leftPlayer);
-
-		snowBall= new SnowBall(156, 228);
-		add(snowBall);
 
 		// temp walls
 		tempWalls = new FlxSpriteGroup(0, 0);
@@ -86,8 +82,9 @@ class PlayState extends FlxState {
 		super.update(elapsed);
 		FlxG.collide(leftPlayer, tempWalls);
 		FlxG.collide(leftPlayer, midline);
-		FlxG.collide(snowBall, tempWalls);
-		FlxG.collide(snowBall, leftPlayer); // må fikse slikk at ballen ikke dytter på spiller
+		FlxG.collide(leftPlayer.snowballs, tempWalls);
+
+		FlxG.collide(leftPlayer.snowballs, leftPlayer); // må fikse logikk, slik at ballen stopper i spiller 
 
 		FlxG.collide(leftPlayer, obstacleMap);
 		FlxG.collide(snowBall, obstacleMap); // må fikse slik at snøballer som kastes kolliderer med veggene

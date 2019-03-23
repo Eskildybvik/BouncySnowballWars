@@ -1,89 +1,50 @@
 package;
 
-import flixel.math.FlxPoint;
 import flixel.FlxSprite;
-import flixel.FlxG;
 import flixel.util.FlxColor;
-import openfl.geom.Point;
-
+import flixel.FlxObject;
 
 
 class SnowBall extends FlxSprite {
-	// Point - storing 2d vectors
-	private var ballMovement:Point;
-	private static inline var ballSpeed:Int = 100;
-	// inline - når kode kompiled: bytter direkte ut ballSpedd -> Dermed ingen forsinkelser 
+	private var framesUntilTouchCheck:Int = 0; // Jallafix for bad collisions
+	private var bouncesLeft:Int = 3;
 
 	public function new(x:Float, y:Float) {
 		super(x, y);
 		makeGraphic(24, 24, FlxColor.BLUE);
-		// DRAG - If you are using `acceleration`, you can use `maxVelocity` with it
-	 	// to cap the speed automatically (very useful!).
-		// drag.set(ballSpeed*8, ballSpeed*8);
-		// maxVelocity.set(ballSpeed, ballSpeed);
-		
-		//ballMovement = new Point(0, 0);   // brukedette til å holde styr på posisjon?
-		// collide function
-
-
-
 	}
-
 
 	override public function update(elapsed:Float) {
-		controls();
+		if (framesUntilTouchCheck == 0) {
+			if (isTouching(FlxObject.LEFT)) {
+				velocity.set(Math.abs(velocity.x), velocity.y);
+				framesUntilTouchCheck = 2;
+				bouncesLeft--;
+			}
+			else if (isTouching(FlxObject.RIGHT)) {
+				velocity.set(Math.abs(velocity.x) * -1, velocity.y);
+				framesUntilTouchCheck = 2;
+				bouncesLeft--;
+			}
+			else if (isTouching(FlxObject.FLOOR)) {
+				velocity.set(velocity.x, -1*Math.abs(velocity.y));
+				framesUntilTouchCheck = 2;
+				bouncesLeft--;
+			}
+			else if (isTouching(FlxObject.CEILING)) {
+				velocity.set(velocity.x, Math.abs(velocity.y));
+				framesUntilTouchCheck = 2;
+				bouncesLeft--;
+			}
+		}
+		else {
+			framesUntilTouchCheck--;
+		}
 		super.update(elapsed);
 
-		// sjekke om den tocher 
-		//isTouching
-	}
-
-
-
-
-	// midlertidlig
-	// skal selvfølgelig ikke kunne styre ballen med taster
-	private function controls() {
-		var tUp = FlxG.keys.pressed.UP;
-		var tLeft = FlxG.keys.pressed.LEFT;
-		var tDown = FlxG.keys.pressed.DOWN;
-		var tRight = FlxG.keys.pressed.RIGHT;
-
-		var tAngle = 0;
-		var tWillMove = false;
-
-		if (tUp) {
-			tWillMove = true;
-			tAngle = -90;
-			if (tLeft) {
-				tAngle -= 45;
-			}
-			if (tRight) {
-				tAngle += 45;
-			}
-		}
-		else if (tDown) {
-			tWillMove = true;
-			tAngle = 90;
-			if (tLeft) {
-				tAngle += 45;
-			}
-			if (tRight) {
-				tAngle -= 45;
-			}
-		}
-		else if (tRight) {
-			tWillMove = true;
-			tAngle = 0;
-		}
-		else if (tLeft) {
-			tWillMove = true;
-			tAngle = 180;
-		}
-
-		if (tWillMove) {
-			velocity.set(ballSpeed * 10, 0);
-			velocity.rotate(FlxPoint.weak(0,0), tAngle);
+		if (bouncesLeft == 0) {
+			kill();
+			bouncesLeft = 3; // To be ready for revival
 		}
 	}
 }
