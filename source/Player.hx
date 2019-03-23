@@ -14,6 +14,7 @@ class Player extends FlxSprite {
 	private static inline var SNOWBALL_SPEED:Int = 1000;
 	public var snowballs:FlxTypedSpriteGroup<SnowBall>;
 	public var gamepad:FlxGamepad = null;
+	public var building:Bool = false;
 
 	public function new(x:Float, y:Float) {
 		super(x, y);
@@ -62,12 +63,14 @@ class Player extends FlxSprite {
 			if (FlxG.mouse.justPressed) {
 				mouseShoot();
 			}
+			building = FlxG.mouse.justPressedRight;
 		}
 		else {
 			gamepadMovement();
 			if (gamepad.justPressed.RIGHT_SHOULDER) {
 				gamepadShoot();
 			}
+			building = gamepad.justPressed.LEFT_SHOULDER;
 		}
 	}
 

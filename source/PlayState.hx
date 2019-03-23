@@ -91,7 +91,7 @@ class PlayState extends FlxState {
 		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x - xOffset)/tileWidth + 1) * tileWidth + xOffset;
 		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * tileHeight + wallThickness;
 		
-		if (FlxG.keys.pressed.B) {
+		if (leftPlayer.building) {
 			obstacleMap.setTile(Math.ceil((leftPlayer.x - xOffset)/tileWidth) + 1, Math.round(leftPlayer.y/tileHeight), 1);
 		}
 	}
