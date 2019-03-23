@@ -30,7 +30,6 @@ class PlayState extends FlxState {
 	private var rightPlayer:Player;
 
 	public var allSnowballs:FlxTypedGroup<FlxTypedSpriteGroup<SnowBall>>;
-	public var tileHandler:Tiles;
 	
 	//For controlls
 	public var leftInput:FlxGamepad = null;
@@ -94,8 +93,6 @@ class PlayState extends FlxState {
 		allSnowballs = new FlxTypedGroup<FlxTypedSpriteGroup<SnowBall>>();
 		allSnowballs.add(leftPlayer.snowballs);
 		allSnowballs.add(rightPlayer.snowballs);
-
-		tileHandler = new Tiles();
 
 		add(new HUD());
 	}
