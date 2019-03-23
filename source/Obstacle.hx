@@ -9,7 +9,13 @@ class Obstacle extends FlxSprite {
 		super(x, y);
 		health = 3;
 		immovable = true;
-		loadGraphic(AssetPaths.Obstacle__png, true, 50, 50);
+		loadGraphic("assets/images/ObstacleDestroy.png", true, 64, 90);
+		setSize(64, 64);
+		offset.y = 22;
+		animation.add("hp3", [0], 1, false);
+		animation.add("hp2", [1], 1, false);
+		animation.add("hp1", [2], 1, false);
+		animation.add("destroy", [3, 4, 5], 8, false);
 	}
 
 	override public function update(elapsed:Float) {
@@ -21,7 +27,15 @@ class Obstacle extends FlxSprite {
 		if (framesUntilCanBeDamagedAgain > 0) return;
 		framesUntilCanBeDamagedAgain = 4;
 		health--;
-		if (health == 0) destroy();
+		if (health == 0) controlledDestruction();
+		else if (health > 0) animation.play("hp" + health);
+	}
+
+	private function controlledDestruction() {
+		animation.play("destroy");
+		animation.finishCallback = function(s:String) {
+			destroy();
+		}
 	}
 }
 

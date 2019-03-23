@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxSort;
 import flixel.FlxObject;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
@@ -21,33 +22,33 @@ class PlayState extends FlxState {
 	private var snowMapRight:FlxTilemap;
 	private var leftPlayerHighlightBox:FlxSprite;
 	private var rightPlayerHighlightBox:FlxSprite;
-	public var obstacleMapLeftData:Array<Array<Int>> = [
-		[0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,1,0,0,0,0],
-		[0,0,0,0,1,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,1,0],
-		[0,0,0,0,0,0,0,1,0],
-		[0,0,0,0,0,0,0,1,0],
-		[0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,1,0,0,0,0],
-		[0,0,0,0,1,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0]
-	];	
+	// public var obstacleMapLeftData:Array<Array<Int>> = [
+	// 	[0,0,0,0,0,0,0,0,0],
+	// 	[0,0,0,0,1,0,0,0,0],
+	// 	[0,0,0,0,1,0,0,0,0],
+	// 	[0,0,0,0,0,0,0,0,0],
+	// 	[0,0,0,0,0,0,0,1,0],
+	// 	[0,0,0,0,0,0,0,1,0],
+	// 	[0,0,0,0,0,0,0,1,0],
+	// 	[0,0,0,0,0,0,0,0,0],
+	// 	[0,0,0,0,1,0,0,0,0],
+	// 	[0,0,0,0,1,0,0,0,0],
+	// 	[0,0,0,0,0,0,0,0,0]
+	// ];	
 
-	public var obstacleMapRightData:Array<Array<Int>> = [
-		[0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,1,0,0,0,0],
-		[0,0,0,0,1,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0],
-		[0,1,0,0,0,0,0,0,0],
-		[0,1,0,0,0,0,0,0,0],
-		[0,1,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,1,0,0,0,0],
-		[0,0,0,0,1,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0]
-	];
+	// public var obstacleMapRightData:Array<Array<Int>> = [
+	// 	[0,0,0,0,0,0,0,0,0],
+	// 	[0,0,0,0,1,0,0,0,0],
+	// 	[0,0,0,0,1,0,0,0,0],
+	// 	[0,0,0,0,0,0,0,0,0],
+	// 	[0,1,0,0,0,0,0,0,0],
+	// 	[0,1,0,0,0,0,0,0,0],
+	// 	[0,1,0,0,0,0,0,0,0],
+	// 	[0,0,0,0,0,0,0,0,0],
+	// 	[0,0,0,0,1,0,0,0,0],
+	// 	[0,0,0,0,1,0,0,0,0],
+	// 	[0,0,0,0,0,0,0,0,0]
+	// ];
 
 	private var obstacles:FlxTypedSpriteGroup<Obstacle>;
 
@@ -68,7 +69,6 @@ class PlayState extends FlxState {
 
 	override public function create():Void {	
 		super.create();
-
 		midline = new FlxSprite(0, 0);
 		midline.makeGraphic(8, FlxG.height, FlxColor.RED);
 		midline.screenCenter(X);
@@ -195,6 +195,7 @@ class PlayState extends FlxState {
 			// obstacleMapLeft.setTile(Math.ceil((leftPlayer.x)/tileWidth - 0.5), Math.round(leftPlayer.y/tileHeight), 1);
 			var temp = new Obstacle(leftPlayerHighlightBox.x, leftPlayerHighlightBox.y);
 			obstacles.add(temp);
+			obstacles.sort(FlxSort.byY);
 		}
 
 		rightPlayerHighlightBox.x = Math.floor((rightPlayer.x)/tileWidth - 0.5) * tileWidth + 5;
@@ -204,6 +205,7 @@ class PlayState extends FlxState {
 			// obstacleMapRight.setTile(Math.floor((rightPlayer.x - (wallThickness * 2 + 64 * 9 + 54))/tileWidth - 0.5), Math.round(rightPlayer.y/tileHeight), 1);
 			var temp = new Obstacle(rightPlayerHighlightBox.x, rightPlayerHighlightBox.y);
 			obstacles.add(temp);
+			obstacles.sort(FlxSort.byY);
 		}
 	}	
 }
