@@ -1,5 +1,6 @@
 package;
 
+import flixel.input.gamepad.FlxGamepad;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
@@ -7,6 +8,9 @@ import flixel.util.FlxColor;
 import flixel.FlxSprite;
 
 class GameOverState extends FlxState {	
+	
+	private var gamepad:FlxGamepad = null;
+
 	override public function create() {
 		super.create();
 
@@ -16,13 +20,16 @@ class GameOverState extends FlxState {
 		add(winnerText);
 
 		var restartText = new FlxText(0, 500, 0, "", 24);
-		restartText.text = "Press R to restart";
+		restartText.text = "Press any button to restart";
 		restartText.screenCenter(X);
 		add(restartText);
 	}
 
 	override public function update(elapsed:Float) {
-		if (FlxG.keys.justReleased.R) {
+		if (gamepad == null) {
+			gamepad = FlxG.gamepads.getFirstActiveGamepad();
+		}
+		if (FlxG.keys.justReleased.ANY || gamepad != null ? gamepad.justReleased.ANY : false) {
 			Reg.leftPlayerHearts = Reg.rightPlayerHearts = 5;
 			Reg.leftPlayerSnow = Reg.rightPlayerSnow = 30;
 			FlxG.resetGame();
