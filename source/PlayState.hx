@@ -141,6 +141,22 @@ class PlayState extends FlxState {
 		FlxG.overlap(allSnowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
 		FlxG.overlap(allSnowballs, tempWalls, FlxObject.updateTouchingFlags);
 
+		FlxG.overlap(leftPlayer, rightPlayer.snowballs, function(p:Player, s:SnowBall) {
+			Reg.leftPlayerHearts--;
+			s.kill();
+			if (Reg.leftPlayerHearts == 0) {
+				FlxG.switchState(new GameOverState());
+			}
+		});
+
+		FlxG.overlap(rightPlayer, leftPlayer.snowballs, function(p:Player, s:SnowBall) {
+			Reg.rightPlayerHearts--;
+			s.kill();
+			if (Reg.rightPlayerHearts == 0) {
+				FlxG.switchState(new GameOverState());
+			}
+		});
+
 		// obstacle placement
 		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth - 0.5) * tileWidth + xOffset;
 		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * tileHeight + wallThickness;
