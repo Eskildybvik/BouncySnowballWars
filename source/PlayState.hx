@@ -41,7 +41,7 @@ class PlayState extends FlxState {
 	[0,0,0,0,1,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0],
 	[0,1,0,0,0,0,0,0,0],
-	[0,1,0,0,0,0,0,0,0],
+	[1,1,0,0,0,0,0,0,0],
 	[0,1,0,0,0,0,0,0,0],
 	[0,0,0,0,0,0,0,0,0],
 	[0,0,0,0,1,0,0,0,0],
@@ -110,13 +110,18 @@ class PlayState extends FlxState {
 		obstacleMapRight = new FlxTilemap();
 
 		obstacleMapRight.loadMapFrom2DArray(obstacleMapRightData, "assets/images/white.jpg", 64, 64, null, 0, 1, 1);
-		obstacleMapRight.setPosition(xOffset * 2 + 64 * 9, wallThickness + 1);
+		obstacleMapRight.setPosition(wallThickness * 2 + 64 * 9 + 54, wallThickness + 1);
 		add(obstacleMapRight);
 
 		leftPlayerHighlightBox = new FlxSprite(0, 0);
 		leftPlayerHighlightBox.makeGraphic(tileWidth, tileHeight, FlxColor.TRANSPARENT);
 		FlxSpriteUtil.drawRect(leftPlayerHighlightBox, 0, 0, tileWidth, tileHeight, FlxColor.TRANSPARENT, { thickness: 1, color: FlxColor.RED });
 		add(leftPlayerHighlightBox);
+
+		rightPlayerHighlightBox = new FlxSprite(0, 0);
+		rightPlayerHighlightBox.makeGraphic(tileWidth, tileHeight, FlxColor.TRANSPARENT);
+		FlxSpriteUtil.drawRect(rightPlayerHighlightBox, 0, 0, tileWidth, tileHeight, FlxColor.TRANSPARENT, { thickness: 1, color: FlxColor.RED });
+		add(rightPlayerHighlightBox);
 
 		// snowballs
 		allSnowballs = new FlxTypedGroup<FlxTypedSpriteGroup<SnowBall>>();
@@ -161,10 +166,17 @@ class PlayState extends FlxState {
 
 		// obstacle placement
 		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth - 0.5) * tileWidth + xOffset;
-		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * tileHeight + wallThickness;
+		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * tileHeight + wallThickness + 1;
 		
 		if (leftPlayer.building) {
 			obstacleMapLeft.setTile(Math.ceil((leftPlayer.x)/tileWidth - 0.5), Math.round(leftPlayer.y/tileHeight), 1);
+		}
+
+		rightPlayerHighlightBox.x = Math.floor((rightPlayer.x)/tileWidth - 0.5) * tileWidth + 5;
+		rightPlayerHighlightBox.y = Math.round(rightPlayer.y/tileHeight) * tileHeight + wallThickness + 1;
+		
+		if (rightPlayer.building) {
+			obstacleMapRight.setTile(Math.floor((rightPlayer.x - (wallThickness * 2 + 64 * 9 + 54))/tileWidth - 0.5), Math.round(rightPlayer.y/tileHeight), 1);
 		}
 	}
 }
