@@ -19,7 +19,8 @@ class Player extends FlxSprite {
 		super(x, y);
 
 		// makeGraphic(64, 64, FlxColor.CYAN);
-		loadGraphic(AssetPaths.player__png, true, 64, 64);
+		// loadGraphic(AssetPaths.player__png, true, 64, 64);
+		loadGraphic(AssetPaths.playerwalkthrow__png, true, 64, 64);
 		// Uncomment to ease implementation directional animation
 		// animation.add("walk_left", [0, 4, 8, 12], 12, true);
 		// animation.add("walk_up", [1, 5, 9, 13], 12, true);
@@ -29,8 +30,12 @@ class Player extends FlxSprite {
 		// animation.add("still_up", [17, 21, 25, 29], 12, true);
 		// animation.add("still_down", [18, 22, 26, 30], 12, true);
 		// animation.add("still_right", [19, 23, 27, 31], 12, true);
-		animation.add("walk", [3, 7, 11, 15], 8, true);
-		animation.add("still", [19, 23, 27, 31], 8, true);
+		// animation.add("walk", [3, 7, 11, 15], 8, true);
+		// animation.add("still", [19, 23, 27, 31], 8, true);
+		animation.add("walk", [0, 3, 6, 9], 8, true);
+		animation.add("still", [0], 1, false);
+		animation.add("walk_throw", [0, 5, 11], 8, false);
+		animation.add("still_throw", [0, 1, 2], 8, false);
 		animation.play("still");
 		setSize(46, 62);
 		offset.set(11, 1);
@@ -75,7 +80,9 @@ class Player extends FlxSprite {
 	}
 
 	private function animate() {
-		animation.play(velocity.x+velocity.y == 0 ? "still" : "walk");
+		if (throwCooldown < 10) {
+			animation.play(velocity.x+velocity.y == 0 ? "still" : "walk");
+		}
 	}
 
 	private function keyboardMovement() {
@@ -133,6 +140,7 @@ class Player extends FlxSprite {
 		snowball.reset(x+width/2, y+height/2); // sets snowball starting point
 		snowball.velocity.set(SNOWBALL_SPEED, 0);
 		snowball.velocity.rotate(FlxPoint.weak(0,0), tAngle);
+		animation.play(animation.name + "_throw");
 	}
 
 	private function gamepadMovement() {
@@ -153,6 +161,7 @@ class Player extends FlxSprite {
 			snowball.reset(x+width/2, y+height/2);
 			snowball.velocity.set(SNOWBALL_SPEED, 0);
 			snowball.velocity.rotate(FlxPoint.weak(0, 0), rightStickVector.degrees);
+			animation.play(animation.name + "_throw");
 		}
 	}
 }
