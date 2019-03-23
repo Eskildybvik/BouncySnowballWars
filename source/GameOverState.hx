@@ -22,7 +22,11 @@ class GameOverState extends FlxState {
 	}
 
 	override public function update(elapsed:Float) {
-		if (FlxG.keys.justReleased.R) FlxG.resetGame();
+		if (FlxG.keys.justReleased.R) {
+			Reg.leftPlayerHearts = Reg.rightPlayerHearts = 5;
+			Reg.leftPlayerSnow = Reg.rightPlayerSnow = 30;
+			FlxG.resetGame();
+		}
 		super.update(elapsed);
 	}
 }
