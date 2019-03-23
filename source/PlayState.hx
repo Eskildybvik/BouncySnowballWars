@@ -16,39 +16,10 @@ class PlayState extends FlxState {
 	// for obstacles and snow tiles
 	static inline var tileWidth:Int = 64;
 	static inline var tileHeight:Int = 64;
-	// public var obstacleMapLeft:FlxTilemap;
-	// public var obstacleMapRight:FlxTilemap;
 	private var snowMapLeft:FlxTilemap;
 	private var snowMapRight:FlxTilemap;
 	private var leftPlayerHighlightBox:FlxSprite;
 	private var rightPlayerHighlightBox:FlxSprite;
-	// public var obstacleMapLeftData:Array<Array<Int>> = [
-	// 	[0,0,0,0,0,0,0,0,0],
-	// 	[0,0,0,0,1,0,0,0,0],
-	// 	[0,0,0,0,1,0,0,0,0],
-	// 	[0,0,0,0,0,0,0,0,0],
-	// 	[0,0,0,0,0,0,0,1,0],
-	// 	[0,0,0,0,0,0,0,1,0],
-	// 	[0,0,0,0,0,0,0,1,0],
-	// 	[0,0,0,0,0,0,0,0,0],
-	// 	[0,0,0,0,1,0,0,0,0],
-	// 	[0,0,0,0,1,0,0,0,0],
-	// 	[0,0,0,0,0,0,0,0,0]
-	// ];	
-
-	// public var obstacleMapRightData:Array<Array<Int>> = [
-	// 	[0,0,0,0,0,0,0,0,0],
-	// 	[0,0,0,0,1,0,0,0,0],
-	// 	[0,0,0,0,1,0,0,0,0],
-	// 	[0,0,0,0,0,0,0,0,0],
-	// 	[0,1,0,0,0,0,0,0,0],
-	// 	[0,1,0,0,0,0,0,0,0],
-	// 	[0,1,0,0,0,0,0,0,0],
-	// 	[0,0,0,0,0,0,0,0,0],
-	// 	[0,0,0,0,1,0,0,0,0],
-	// 	[0,0,0,0,1,0,0,0,0],
-	// 	[0,0,0,0,0,0,0,0,0]
-	// ];
 
 	private var obstacles:FlxTypedSpriteGroup<Obstacle>;
 
@@ -103,18 +74,6 @@ class PlayState extends FlxState {
 		add(walls);
 		walls.immovable = true;
 
-		// tilemap stuff begins here
-		// obstacleMapLeft = new FlxTilemap();
-
-		// obstacleMapLeft.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/white.jpg", 64, 64, null, 0, 1, 1);
-		// obstacleMapLeft.setPosition(xOffset, wallThickness + 1);
-		// add(obstacleMapLeft);
-
-		// obstacleMapRight = new FlxTilemap();
-
-		// obstacleMapRight.loadMapFrom2DArray(obstacleMapRightData, "assets/images/white.jpg", 64, 64, null, 0, 1, 1);
-		// obstacleMapRight.setPosition(wallThickness * 2 + 64 * 9 + 54, wallThickness + 1);
-		// add(obstacleMapRight);
 		obstacles = new FlxTypedSpriteGroup<Obstacle>(0, 0);
 		add(obstacles);
 
@@ -143,27 +102,21 @@ class PlayState extends FlxState {
 
 		FlxG.collide(leftPlayer, walls);
 		FlxG.collide(leftPlayer, midline);
-		// FlxG.collide(leftPlayer, obstacleMapLeft);
 		FlxG.collide(leftPlayer, obstacles);
 
 		FlxG.collide(rightPlayer, walls);
 		FlxG.collide(rightPlayer, midline);
-		// FlxG.collide(rightPlayer, obstacleMapRight);
 		FlxG.collide(rightPlayer, obstacles);
 
-		// FlxG.overlap(allSnowballs, obstacleMapLeft, FlxObject.updateTouchingFlags);
-		// FlxG.overlap(allSnowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
 		FlxG.overlap(allSnowballs, walls, FlxObject.updateTouchingFlags);
 
-		// FlxG.collide(allSnowballs, obstacleMapLeft, tileHandler.leftTileHit;
-		// FlxG.collide(allSnowballs, obstacleMapRight, tileHandler.rightTileHit);
 		FlxG.overlap(allSnowballs, obstacles, function(s:SnowBall, o:Obstacle) {
 			FlxObject.updateTouchingFlags(s, o);
 			o.damage();
 		});
 
 		FlxG.overlap(leftPlayer, allSnowballs, function(p:Player, s:SnowBall) {
-			if (!s.inUse) return;
+			if (!s.inUse) return; // Prevents player from taking damage from particles
 			Reg.leftPlayerHearts--;
 			s.kill();
 			if (Reg.leftPlayerHearts == 0) {
@@ -182,7 +135,7 @@ class PlayState extends FlxState {
 
 		// Delete snowballs when they collide with each other
 		FlxG.collide(allSnowballs, allSnowballs, function(s1:SnowBall, s2:SnowBall) {
-			if (!s1.inUse || !s2.inUse) return;
+			if (!s1.inUse || !s2.inUse) return; // Avoids killing dead snowballs
 			s1.kill();
 			s2.kill();
 		});
@@ -191,8 +144,8 @@ class PlayState extends FlxState {
 		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth - 0.5) * tileWidth + xOffset;
 		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * tileHeight + wallThickness + 1;
 		
+		// Checks if player has pressed the build button, and builds on his side of them map
 		if (leftPlayer.building && leftPlayerHighlightBox.x+16 < midline.x) {
-			// obstacleMapLeft.setTile(Math.ceil((leftPlayer.x)/tileWidth - 0.5), Math.round(leftPlayer.y/tileHeight), 1);
 			var temp = new Obstacle(leftPlayerHighlightBox.x, leftPlayerHighlightBox.y);
 			obstacles.add(temp);
 			obstacles.sort(FlxSort.byY);
@@ -202,7 +155,6 @@ class PlayState extends FlxState {
 		rightPlayerHighlightBox.y = Math.round(rightPlayer.y/tileHeight) * tileHeight + wallThickness + 1;
 		
 		if (rightPlayer.building && rightPlayerHighlightBox.x > midline.x) {
-			// obstacleMapRight.setTile(Math.floor((rightPlayer.x - (wallThickness * 2 + 64 * 9 + 54))/tileWidth - 0.5), Math.round(rightPlayer.y/tileHeight), 1);
 			var temp = new Obstacle(rightPlayerHighlightBox.x, rightPlayerHighlightBox.y);
 			obstacles.add(temp);
 			obstacles.sort(FlxSort.byY);
