@@ -57,10 +57,10 @@ class TileManager{
     }
 
     public function addSnow(){
-        var leftDirtOpen:Array<Int> = leftDirt.getTileInstances(1); //.concat(leftDirt.getTileInstances(2).concat(leftDirt.getTileInstances(3).concat(leftDirt.getTileInstances(4))));
-        var rightDirtOpen:Array<Int> = rightDirt.getTileInstances(1);//.concat(rightDirt.getTileInstances(2).concat(rightDirt.getTileInstances(3).concat(rightDirt.getTileInstances(4))));
-        var leftIceOpen:Array<Int> = leftIce.getTileInstances(1);//.concat(leftIce.getTileInstances(2).concat(leftIce.getTileInstances(3).concat(leftIce.getTileInstances(4))));
-        var rightIceOpen:Array<Int> = rightIce.getTileInstances(1); //.concat(rightIce.getTileInstances(2).concat(rightIce.getTileInstances(3).concat(rightIce.getTileInstances(4))));
+        var leftDirtOpen:Array<Int> = addArray(leftDirt);
+        var rightDirtOpen:Array<Int> = addArray(rightDirt);
+        var leftIceOpen:Array<Int> = addArray(leftIce);
+        var rightIceOpen:Array<Int> = addArray(rightIce);
 
         for(index in leftDirtOpen){
             if(FlxG.random.bool(snowChance)){
@@ -82,6 +82,16 @@ class TileManager{
                 rightIce.setTileByIndex(index, rightIce.getData()[index]+1);
             }
         }
+    }
+
+    private function addArray(tileMap:FlxTilemap):Array<Int>{
+        var arr:Array<Int> = [];
+        for(i in 1...5){
+            if(tileMap.getTileInstances(i) != null){
+                arr = arr.concat(tileMap.getTileInstances(i));
+            }
+        }
+        return arr;
     }
 
 
