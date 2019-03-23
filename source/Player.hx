@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxObject;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
@@ -16,7 +17,24 @@ class Player extends FlxSprite {
 
 	public function new(x:Float, y:Float) {
 		super(x, y);
-		makeGraphic(64, 64, FlxColor.CYAN);
+
+		// makeGraphic(64, 64, FlxColor.CYAN);
+		loadGraphic(AssetPaths.player__png, true, 64, 64);
+		// Uncomment to ease implementation directional animation
+		// animation.add("walk_left", [0, 4, 8, 12], 12, true);
+		// animation.add("walk_up", [1, 5, 9, 13], 12, true);
+		// animation.add("walk_down", [2, 6, 10, 14], 12, true);
+		// animation.add("walk_right", [3, 7, 11, 15], 12, true);
+		// animation.add("still_left", [16, 20, 24, 28], 12, true);
+		// animation.add("still_up", [17, 21, 25, 29], 12, true);
+		// animation.add("still_down", [18, 22, 26, 30], 12, true);
+		// animation.add("still_right", [19, 23, 27, 31], 12, true);
+		animation.add("walk", [3, 7, 11, 15], 8, true);
+		animation.add("still", [19, 23, 27, 31], 8, true);
+		animation.play("still");
+		setSize(46, 62);
+		offset.set(11, 1);
+
 		drag.set(PLAYER_SPEED*8, PLAYER_SPEED*8);
 		gamepad = FlxG.gamepads.firstActive; // Set manually for multple players
 		if (gamepad != null) {
@@ -34,6 +52,7 @@ class Player extends FlxSprite {
 
 	override public function update(elapsed:Float) {
 		controls();
+		animate();
 		super.update(elapsed);
 	}
 
@@ -50,7 +69,10 @@ class Player extends FlxSprite {
 				gamepadShoot();
 			}
 		}
+	}
 
+	private function animate() {
+		animation.play(velocity.x+velocity.y == 0 ? "still" : "walk");
 	}
 
 	private function keyboardMovement() {
