@@ -13,7 +13,6 @@ import flixel.util.FlxSpriteUtil;
 import flixel.input.gamepad.FlxGamepad;
 
 class PlayState extends FlxState {
-
 	// for obstacles and snow tiles
 	static inline var tileWidth:Int = 64;
 	static inline var tileHeight:Int = 64;
@@ -57,13 +56,13 @@ class PlayState extends FlxState {
 		walls.loadMapFrom2DArray(tempArray, "assets/images/ice_wall.png", 64, 64, null, 0, 1, 1);
 		add(walls);
 
+		tileManager = new TileManager(this);
+
 		midline = new FlxSprite(0, 0);
 		midline.makeGraphic(8, FlxG.height, FlxColor.RED);
 		midline.screenCenter(X);
 		add(midline);
 		midline.immovable = true;
-
-		tileManager = new TileManager(this);
 
 		leftPlayer = new Player(128, 128);
 		leftPlayer.gamepad = leftInput;
@@ -104,6 +103,8 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 
+		tileManager.addSnow();
+
 		FlxG.collide(leftPlayer, walls);
 		FlxG.collide(leftPlayer, midline);
 		FlxG.collide(leftPlayer, obstacles);
@@ -138,14 +139,14 @@ class PlayState extends FlxState {
 		});
 
 		// Delete snowballs when they collide with each other
-		FlxG.collide(allSnowballs, allSnowballs, function(s1:SnowBall, s2:SnowBall) {
+		FlxG.overlap(allSnowballs, allSnowballs, function(s1:SnowBall, s2:SnowBall) {
 			if (!s1.inUse || !s2.inUse) return; // Avoids killing dead snowballs
 			s1.kill();
 			s2.kill();
 		});
 
 		// obstacle placement
-		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth - 0.5) * 64;
+		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth + 0.5) * 64;
 		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * 64;
 		
 		// Checks if player has pressed the build button, and builds on his side of them map
@@ -155,7 +156,7 @@ class PlayState extends FlxState {
 			obstacles.sort(FlxSort.byY);
 		}
 
-		rightPlayerHighlightBox.x = Math.floor((rightPlayer.x)/tileWidth - 0.5) * tileWidth + 5;
+		rightPlayerHighlightBox.x = Math.floor((rightPlayer.x)/tileWidth - 0.5) * 64;
 		rightPlayerHighlightBox.y = Math.round(rightPlayer.y/tileHeight) * 64;
 		
 		if (rightPlayer.building && rightPlayerHighlightBox.x > midline.x) {

@@ -18,20 +18,7 @@ class Player extends FlxSprite {
 	public function new(x:Float, y:Float) {
 		super(x, y);
 
-		// makeGraphic(64, 64, FlxColor.CYAN);
-		// loadGraphic(AssetPaths.player__png, true, 64, 64);
 		loadGraphic(AssetPaths.playerwalkthrow__png, true, 64, 64);
-		// Uncomment to ease implementation directional animation
-		// animation.add("walk_left", [0, 4, 8, 12], 12, true);
-		// animation.add("walk_up", [1, 5, 9, 13], 12, true);
-		// animation.add("walk_down", [2, 6, 10, 14], 12, true);
-		// animation.add("walk_right", [3, 7, 11, 15], 12, true);
-		// animation.add("still_left", [16, 20, 24, 28], 12, true);
-		// animation.add("still_up", [17, 21, 25, 29], 12, true);
-		// animation.add("still_down", [18, 22, 26, 30], 12, true);
-		// animation.add("still_right", [19, 23, 27, 31], 12, true);
-		// animation.add("walk", [3, 7, 11, 15], 8, true);
-		// animation.add("still", [19, 23, 27, 31], 8, true);
 		animation.add("walk", [0, 3, 6, 9], 8, true);
 		animation.add("still", [0], 1, false);
 		animation.add("walk_throw", [0, 5, 11], 8, false);
@@ -41,7 +28,6 @@ class Player extends FlxSprite {
 		offset.set(11, 1);
 
 		drag.set(PLAYER_SPEED*8, PLAYER_SPEED*8);
-		// gamepad = FlxG.gamepads.firstActive; // Set manually for multple players
 		if (gamepad != null) {
 			gamepad.deadZone = 0.3;
 		}
@@ -56,6 +42,7 @@ class Player extends FlxSprite {
 	}
 
 	override public function update(elapsed:Float) {
+		building = false;
 		controls();
 		animate();
 		throwCooldown--;
@@ -68,15 +55,23 @@ class Player extends FlxSprite {
 			if (FlxG.mouse.justPressed) {
 				mouseShoot();
 			}
-			building = FlxG.mouse.justPressedRight;
+			if (FlxG.mouse.justPressedRight) build();
 		}
 		else {
 			gamepadMovement();
 			if (gamepad.justPressed.RIGHT_SHOULDER) {
 				gamepadShoot();
 			}
-			building = gamepad.justPressed.LEFT_SHOULDER;
+			if (gamepad.justPressed.LEFT_SHOULDER) build();
 		}
+	}
+
+	private function build() {
+		// FlipX is used to determine if this is the right or left player
+		if ((flipX && Reg.rightPlayerSnow <= 4) || (!flipX && Reg.leftPlayerSnow <= 4)) return;
+		if (flipX) Reg.rightPlayerSnow -= 5;
+		if (!flipX) Reg.leftPlayerSnow -= 5;
+		building = true;
 	}
 
 	private function animate() {
@@ -133,6 +128,9 @@ class Player extends FlxSprite {
 
 	private function mouseShoot() {
 		if (throwCooldown > 0) return;
+		if ((flipX && Reg.rightPlayerSnow <= 0) || !flipX && Reg.leftPlayerSnow <= 0) return;
+		if (flipX) Reg.rightPlayerSnow--;
+		else Reg.leftPlayerSnow--;
 		throwCooldown = 20;
 		// Calculates the shooting angle based on the mouse
 		var tAngle = Math.atan2(FlxG.mouse.y - y-height/2, FlxG.mouse.x - x-width/2) * 57.29578;
@@ -154,6 +152,9 @@ class Player extends FlxSprite {
 
 	private function gamepadShoot() {
 		if (throwCooldown > 0) return;
+		if ((flipX && Reg.rightPlayerSnow <= 0) || !flipX && Reg.leftPlayerSnow <= 0) return;
+		if (flipX) Reg.rightPlayerSnow--;
+		else Reg.leftPlayerSnow--;
 		throwCooldown = 20;
 		var rightStickVector = gamepad.getAnalogAxes(FlxGamepadInputID.RIGHT_ANALOG_STICK);
 		if (rightStickVector.x != 0 || rightStickVector.y != 0) { // A direction is required to shoot

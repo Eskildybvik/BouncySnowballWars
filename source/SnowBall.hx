@@ -13,12 +13,12 @@ class SnowBall extends FlxSprite {
 	public function new(x:Float, y:Float) {
 		super(x, y);
 		// loadGraphic(AssetPaths.Snowball__png);
-		loadGraphic("assets/images/Snowball explode.png", true, 50, 50);
+		loadGraphic("assets/images/Snowball explode.png", true, 100, 100);
 		animation.add("fly", [0], 1, false);
 		animation.add("smash", [1, 2, 3, 4], 16, false);
 		animation.play("fly");
-		setSize(12, 12);
-		offset.set(19, 19);
+		setSize(24, 24);
+		offset.set(38, 38);
 	}
 
 	override public function update(elapsed:Float) {
