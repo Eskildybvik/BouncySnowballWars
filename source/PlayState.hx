@@ -103,6 +103,8 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 
+		tileManager.addSnow();
+
 		FlxG.collide(leftPlayer, walls);
 		FlxG.collide(leftPlayer, midline);
 		FlxG.collide(leftPlayer, obstacles);
