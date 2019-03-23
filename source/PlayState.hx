@@ -19,6 +19,7 @@ class PlayState extends FlxState {
 	private var midline:FlxSprite;
 	private var tempWalls:FlxSpriteGroup;
 	private var leftPlayer:Player;
+	private var snowBall:SnowBall;
 
 	override public function create():Void {	
 		super.create();
@@ -27,10 +28,14 @@ class PlayState extends FlxState {
 		midline.makeGraphic(8, FlxG.height, FlxColor.RED);
 		midline.screenCenter(X);
 		add(midline);
+		midline.immovable = true;
 
 		leftPlayer = new Player(128, 128);
+		add(leftPlayer.snowballs);
 		add(leftPlayer);
-		add(new SnowBall(156, 228));
+
+		snowBall= new SnowBall(156, 228);
+		add(snowBall);
 
 		// temp walls
 		tempWalls = new FlxSpriteGroup(0, 0);
@@ -53,5 +58,10 @@ class PlayState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		FlxG.collide(leftPlayer, tempWalls);
+		FlxG.collide(leftPlayer, midline);
+		FlxG.collide(snowBall, tempWalls);
+		FlxG.collide(snowBall, leftPlayer); // må fikse slikk at ballen ikke dytter på spiller
+
+		
 	}
 }
