@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxObject;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.gamepad.id.LogitechID;
 import flixel.util.FlxColor;
@@ -82,17 +83,16 @@ class PlayState extends FlxState {
 		super.update(elapsed);
 		FlxG.collide(leftPlayer, tempWalls);
 		FlxG.collide(leftPlayer, midline);
-		FlxG.collide(leftPlayer.snowballs, tempWalls);
-		FlxG.collide(leftPlayer.snowballs, leftPlayer); // må fikse logikk, slik at ballen stopper i spiller 
-
+		FlxG.overlap(leftPlayer.snowballs, tempWalls, FlxObject.updateTouchingFlags);
+		FlxG.overlap(leftPlayer.snowballs, obstacleMap, FlxObject.updateTouchingFlags);
 		FlxG.collide(leftPlayer, obstacleMap);
 
 		// obstacle placement
 		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth) * tileWidth + xOffset;
 		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * tileHeight + wallThickness;
 		
-		if (FlxG.keys.pressed.B) {
-			obstacleMap.setTile(Math.ceil((leftPlayer.x)/tileWidth ), Math.round(leftPlayer.y/tileHeight), 1);
+		if (leftPlayer.building) {
+			obstacleMap.setTile(Math.ceil((leftPlayer.x)/tileWidth), Math.round(leftPlayer.y/tileHeight), 1);
 		}
 	}
 }
