@@ -23,6 +23,7 @@ class PlayState extends FlxState {
 		midline.immovable = true;
 
 		leftPlayer = new Player(128, 128);
+		add(leftPlayer.snowballs);
 		add(leftPlayer);
 
 		snowBall= new SnowBall(156, 228);
