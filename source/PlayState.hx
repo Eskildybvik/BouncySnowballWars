@@ -138,7 +138,7 @@ class PlayState extends FlxState {
 		});
 
 		// Delete snowballs when they collide with each other
-		FlxG.collide(allSnowballs, allSnowballs, function(s1:SnowBall, s2:SnowBall) {
+		FlxG.overlap(allSnowballs, allSnowballs, function(s1:SnowBall, s2:SnowBall) {
 			if (!s1.inUse || !s2.inUse) return; // Avoids killing dead snowballs
 			s1.kill();
 			s2.kill();
