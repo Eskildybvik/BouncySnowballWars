@@ -144,7 +144,7 @@ class PlayState extends FlxState {
 		});
 
 		// obstacle placement
-		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth - 0.5) * 64;
+		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth + 0.5) * 64;
 		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * 64;
 		
 		// Checks if player has pressed the build button, and builds on his side of them map
