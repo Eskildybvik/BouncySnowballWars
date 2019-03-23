@@ -6,13 +6,21 @@ import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.tile.FlxTilemap;
 
 class PlayState extends FlxState {
+	//For obstacles and snow tiles
+	static inline var tileWidth:Int = 64;
+	static inline var tileHeight:Int = 64;
+	var obstacleMap:FlxTilemap;
+	var snowMap:FlxTilemap;
+	var highlightBox:FlxSprite;
+
 	private var midline:FlxSprite;
 	private var tempWalls:FlxSpriteGroup;
 	private var leftPlayer:Player;
 
-	override public function create():Void {
+	override public function create():Void {	
 		super.create();
 
 		midline = new FlxSprite(0, 0);
