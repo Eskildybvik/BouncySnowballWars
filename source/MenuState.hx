@@ -1,9 +1,6 @@
 package;
 
-import flixel.group.FlxSpriteGroup;
-import flixel.util.FlxColor;
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.text.FlxText;
@@ -56,6 +53,8 @@ class MenuState extends FlxState {
 
     private function startGame():Void{
         game = new PlayState();
+        game.leftInput = leftInput;
+        game.rightInput = rightInput;
         FlxG.switchState(game);
     }
 

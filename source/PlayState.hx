@@ -10,6 +10,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxSpriteUtil;
+import flixel.input.gamepad.FlxGamepad;
 
 class PlayState extends FlxState {
 	// for obstacles and snow tiles
@@ -55,6 +56,11 @@ class PlayState extends FlxState {
 	private var rightPlayer:Player;
 
 	// private var allSnowballs:FlxTypedGroup<FlxTypedSpriteGroup<SnowBall>>;
+	
+	//For controlls
+	public var leftInput:FlxGamepad = null;
+	public var rightInput:FlxGamepad = null;
+	
 
 	override public function create():Void {	
 		super.create();
@@ -66,11 +72,12 @@ class PlayState extends FlxState {
 		midline.immovable = true;
 
 		leftPlayer = new Player(128, 128);
+		leftPlayer.gamepad = leftInput;
 		add(leftPlayer.snowballs);
 		add(leftPlayer);
 
 		rightPlayer = new Player(FlxG.width - 192, 128);
-		rightPlayer.gamepad = FlxG.gamepads.firstActive;
+		rightPlayer.gamepad = rightInput;
 		rightPlayer.flipX = true;
 		// Comment out these two lines to disable player 2
 		add(rightPlayer.snowballs);
