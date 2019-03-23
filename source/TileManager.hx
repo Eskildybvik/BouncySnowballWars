@@ -2,7 +2,7 @@ import flixel.tile.FlxTilemap;
 import flixel.FlxG;
 
 class TileManager{
-    private var inline snowChance:Float = 0.01;
+    private static inline var snowChance:Float = 0.01;
     public var leftDirt:FlxTilemap = new FlxTilemap();
     public var rightDirt:FlxTilemap = new FlxTilemap();
     public var leftIce:FlxTilemap = new FlxTilemap();
@@ -24,7 +24,7 @@ class TileManager{
 	private var xOffset:Int = 58;
 
 
-    public function new(parent:PlayState){
+    public function new(parent:PlayState) {
 
         leftDirt.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/DirtTiles.png", 64, 64, null, 0, 1, 6);
         leftIce.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/IceTiles.png", 64, 64, null, 0, 1, 6);
@@ -36,17 +36,16 @@ class TileManager{
         rightDirt.setPosition(wallThickness * 2 + 64 * 9 + 54, wallThickness + 1);
         rightIce.setPosition(wallThickness * 2 + 64 * 9 + 54, wallThickness + 1);
 
-        for(i in 0...10){
-            for(j in 0...11){
-                if(FlxG.random.bool()){
+        for (i in 0...10) {
+            for (j in 0...11) {
+                if(FlxG.random.bool()) {
                     leftIce.setTile(i, j, 1);
                     rightIce.setTile(9-i, j, 1);
-                }else{
+                }
+                else {
                     leftDirt.setTile(i, j, 1);
                     rightDirt.setTile(9-i, j, 1);
                 }
-                
-
             }
         }
 
@@ -54,14 +53,9 @@ class TileManager{
         parent.add(leftIce);
         parent.add(rightDirt);
         parent.add(rightIce);
-
     }
 
-    public function addSnow(){
+    public function addSnow() {
         
     }
-
-
-
-
 }
