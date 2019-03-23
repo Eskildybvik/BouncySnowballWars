@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
@@ -21,6 +22,7 @@ class GameOverState extends FlxState {
 	}
 
 	override public function update(elapsed:Float) {
+		if (FlxG.keys.justReleased.R) FlxG.resetGame();
 		super.update(elapsed);
 	}
 }
