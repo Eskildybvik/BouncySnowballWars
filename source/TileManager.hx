@@ -41,8 +41,8 @@ class TileManager{
                     leftIce.setTile(i, j, 1);
                     rightIce.setTile(9-i, j, 1);
                 }else{
-                    leftIce.setTile(i, j, 1);
-                    rightIce.setTile(9-i, j, 1);
+                    leftDirt.setTile(i, j, 1);
+                    rightDirt.setTile(9-i, j, 1);
                 }
                 
 
@@ -61,7 +61,6 @@ class TileManager{
         var rightDirtOpen:Array<Int> = rightDirt.getTileInstances(1);//.concat(rightDirt.getTileInstances(2).concat(rightDirt.getTileInstances(3).concat(rightDirt.getTileInstances(4))));
         var leftIceOpen:Array<Int> = leftIce.getTileInstances(1);//.concat(leftIce.getTileInstances(2).concat(leftIce.getTileInstances(3).concat(leftIce.getTileInstances(4))));
         var rightIceOpen:Array<Int> = rightIce.getTileInstances(1); //.concat(rightIce.getTileInstances(2).concat(rightIce.getTileInstances(3).concat(rightIce.getTileInstances(4))));
-        var numOpen:Int = leftDirtOpen.length + rightDirtOpen.length + leftIceOpen.length + rightIceOpen.length;
 
         for(index in leftDirtOpen){
             if(FlxG.random.bool(snowChance)){
