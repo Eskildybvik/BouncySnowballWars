@@ -13,7 +13,6 @@ import flixel.util.FlxSpriteUtil;
 import flixel.input.gamepad.FlxGamepad;
 
 class PlayState extends FlxState {
-
 	// for obstacles and snow tiles
 	static inline var tileWidth:Int = 64;
 	static inline var tileHeight:Int = 64;
@@ -57,13 +56,13 @@ class PlayState extends FlxState {
 		walls.loadMapFrom2DArray(tempArray, "assets/images/ice_wall.png", 64, 64, null, 0, 1, 1);
 		add(walls);
 
+		tileManager = new TileManager(this);
+
 		midline = new FlxSprite(0, 0);
 		midline.makeGraphic(8, FlxG.height, FlxColor.RED);
 		midline.screenCenter(X);
 		add(midline);
 		midline.immovable = true;
-
-		tileManager = new TileManager(this);
 
 		leftPlayer = new Player(128, 128);
 		leftPlayer.gamepad = leftInput;
