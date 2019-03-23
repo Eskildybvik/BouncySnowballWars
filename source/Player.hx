@@ -134,7 +134,8 @@ class Player extends FlxSprite {
 	private function gamepadMovement() {
 		var leftStickVector = gamepad.getAnalogAxes(FlxGamepadInputID.LEFT_ANALOG_STICK);
 		if (leftStickVector.x != 0 || leftStickVector.y != 0) {
-			velocity.set(PLAYER_SPEED * leftStickVector.length, 0);
+			var velocityMultiplier = leftStickVector.length > 0.75 ? 1 : leftStickVector.length;
+			velocity.set(PLAYER_SPEED * velocityMultiplier, 0);
 			velocity.rotate(FlxPoint.weak(0, 0), leftStickVector.degrees);
 		}
 	}
