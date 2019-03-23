@@ -17,7 +17,7 @@ class GameOverState extends FlxState {
 
 		var restartText = new FlxText(0, 500, 0, "", 24);
 		restartText.text = "Press R to restart";
-		restartText.screenCenter(Y);
+		restartText.screenCenter(X);
 		add(restartText);
 	}
 
