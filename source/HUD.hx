@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
@@ -33,9 +34,9 @@ class HUD extends FlxSpriteGroup {
 		leftPlayerHearts = new FlxTypedSpriteGroup<Heart>(0, 0);
 		rightPlayerHearts = new FlxTypedSpriteGroup<Heart>(0, 0);
 		for (i in 0...5) {
-			var tempLeft = new Heart(OFFSET + i*64, OFFSET + 32);
+			var tempLeft = new Heart(OFFSET + i*64 + leftPlayerSnow.width, OFFSET-10);
 			leftPlayerHearts.add(tempLeft);
-			var tempRight = new Heart(FlxG.width - OFFSET - (5-i)*64, OFFSET + 32);
+			var tempRight = new Heart(FlxG.width - OFFSET - (5-i)*64 - rightPlayerSnow.width, OFFSET-10);
 			rightPlayerHearts.add(tempRight);
 		}
 		add(leftPlayerHearts);
@@ -46,7 +47,9 @@ class HUD extends FlxSpriteGroup {
 		super.update(elapsed);
 		// Replaces text with a text representation of snow amount, and pads with zeroes.
 		leftPlayerSnow.text = "Snow: " + (""+Reg.leftPlayerSnow).lpad("0", 3);
+		leftPlayerSnow.color = FlxColor.GRAY;
 		rightPlayerSnow.text = "Snow: " + (""+Reg.rightPlayerSnow).lpad("0", 3);
+		rightPlayerSnow.color = FlxColor.GRAY;
 		
 		if (Reg.leftPlayerHearts < leftLastRegisteredHealth) {
 			leftLastRegisteredHealth--;
