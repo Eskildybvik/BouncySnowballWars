@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
@@ -16,11 +17,16 @@ class GameOverState extends FlxState {
 
 		var restartText = new FlxText(0, 500, 0, "", 24);
 		restartText.text = "Press R to restart";
-		restartText.screenCenter(Y);
+		restartText.screenCenter(X);
 		add(restartText);
 	}
 
 	override public function update(elapsed:Float) {
+		if (FlxG.keys.justReleased.R) {
+			Reg.leftPlayerHearts = Reg.rightPlayerHearts = 5;
+			Reg.leftPlayerSnow = Reg.rightPlayerSnow = 30;
+			FlxG.resetGame();
+		}
 		super.update(elapsed);
 	}
 }
