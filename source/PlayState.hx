@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxObject;
+import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.gamepad.id.LogitechID;
 import flixel.util.FlxColor;
@@ -52,6 +53,8 @@ class PlayState extends FlxState {
 	private var tempWalls:FlxSpriteGroup;
 	private var leftPlayer:Player;
 	private var rightPlayer:Player;
+
+	// private var allSnowballs:FlxTypedGroup<FlxTypedSpriteGroup<SnowBall>>;
 
 	override public function create():Void {	
 		super.create();
@@ -107,23 +110,30 @@ class PlayState extends FlxState {
 		leftPlayerHighlightBox.makeGraphic(tileWidth, tileHeight, FlxColor.TRANSPARENT);
 		FlxSpriteUtil.drawRect(leftPlayerHighlightBox, 0, 0, tileWidth, tileHeight, FlxColor.TRANSPARENT, { thickness: 1, color: FlxColor.RED });
 		add(leftPlayerHighlightBox);
+
+		// snowballs
+		// allSnowballs.add(leftPlayer.snowballs);
+		// allSnowballs.add(rightPlayer.snowballs);
 	}
 
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		FlxG.collide(leftPlayer, tempWalls);
 		FlxG.collide(leftPlayer, midline);
-		FlxG.overlap(leftPlayer.snowballs, tempWalls, FlxObject.updateTouchingFlags);
 		FlxG.overlap(leftPlayer.snowballs, obstacleMapLeft, FlxObject.updateTouchingFlags);
 		FlxG.overlap(leftPlayer.snowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
+		FlxG.overlap(leftPlayer.snowballs, tempWalls, FlxObject.updateTouchingFlags);
 		FlxG.collide(leftPlayer, obstacleMapLeft);
 
 		FlxG.collide(rightPlayer, tempWalls);
 		FlxG.collide(rightPlayer, midline);
+		FlxG.overlap(rightPlayer.snowballs, obstacleMapLeft, FlxObject.updateTouchingFlags);
+		FlxG.overlap(rightPlayer.snowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
 		FlxG.overlap(rightPlayer.snowballs, tempWalls, FlxObject.updateTouchingFlags);
-		FlxG.overlap(leftPlayer.snowballs, obstacleMapLeft, FlxObject.updateTouchingFlags);
-		FlxG.overlap(leftPlayer.snowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
 		FlxG.collide(rightPlayer, obstacleMapRight);
+
+		//FlxG.overlap(allSnowballs, obstacleMapLeft, FlxObject.updateTouchingFlags);
+		//FlxG.overlap(allSnowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
 
 		// obstacle placement
 		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth - 0.5) * tileWidth + xOffset;
