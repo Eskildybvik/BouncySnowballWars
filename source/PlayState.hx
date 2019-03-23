@@ -14,21 +14,37 @@ class PlayState extends FlxState {
 	// for obstacles and snow tiles
 	static inline var tileWidth:Int = 64;
 	static inline var tileHeight:Int = 64;
-	private var obstacleMap:FlxTilemap;
-	private var snowMap:FlxTilemap;
+	private var obstacleMapLeft:FlxTilemap;
+	private var obstacleMapRight:FlxTilemap;
+	private var snowMapLeft:FlxTilemap;
+	private var snowMapRight:FlxTilemap;
 	private var leftPlayerHighlightBox:FlxSprite;
-	private var obstacleMapData:Array<Array<Int>> = [
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,1,0,0,0],
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,1,0,0,0],
-	[0,0,0,0,0,0,0,0,0,-9,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,1,0,-9,0,1,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,1,0,-9,0,1,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,1,0,-9,0,1,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0,0,-9,0,0,0,0,0,0,0,0,0],
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,1,0,0,0,0],
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,1,0,0,0,0],
-	[0,0,0,0,1,0,0,0,0,-9,0,0,0,0,0,0,0,0,0]];	
+	private var rightPlayerHighlightBox:FlxSprite;
+	private var obstacleMapLeftData:Array<Array<Int>> = [
+	[0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,1,0],
+	[0,0,0,0,0,0,0,1,0],
+	[0,0,0,0,0,0,0,1,0],
+	[0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0]];	
+
+	private var obstacleMapRightData:Array<Array<Int>> = [
+	[0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0],
+	[0,1,0,0,0,0,0,0,0],
+	[0,1,0,0,0,0,0,0,0],
+	[0,1,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0],
+	[0,0,0,0,1,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0]];
 
 	private var wallThickness:Int = 7;
 	private var xOffset:Int = 32;
@@ -75,11 +91,17 @@ class PlayState extends FlxState {
 		tempWalls.immovable = true;
 
 		// tilemap stuff begins here
-		obstacleMap = new FlxTilemap();
+		obstacleMapLeft = new FlxTilemap();
 
-		obstacleMap.loadMapFrom2DArray(obstacleMapData, "assets/images/white.jpg", 64, 64, null, 0, 1, 1);
-		obstacleMap.setPosition(xOffset, wallThickness + 1);
-		add(obstacleMap);
+		obstacleMapLeft.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/white.jpg", 64, 64, null, 0, 1, 1);
+		obstacleMapLeft.setPosition(xOffset, wallThickness + 1);
+		add(obstacleMapLeft);
+
+		obstacleMapRight = new FlxTilemap();
+
+		obstacleMapRight.loadMapFrom2DArray(obstacleMapRightData, "assets/images/white.jpg", 64, 64, null, 0, 1, 1);
+		obstacleMapRight.setPosition(xOffset * 2 + 64 * 9, wallThickness + 1);
+		add(obstacleMapRight);
 
 		leftPlayerHighlightBox = new FlxSprite(0, 0);
 		leftPlayerHighlightBox.makeGraphic(tileWidth, tileHeight, FlxColor.TRANSPARENT);
@@ -92,21 +114,21 @@ class PlayState extends FlxState {
 		FlxG.collide(leftPlayer, tempWalls);
 		FlxG.collide(leftPlayer, midline);
 		FlxG.overlap(leftPlayer.snowballs, tempWalls, FlxObject.updateTouchingFlags);
-		FlxG.overlap(leftPlayer.snowballs, obstacleMap, FlxObject.updateTouchingFlags);
-		FlxG.collide(leftPlayer, obstacleMap);
+		FlxG.overlap(leftPlayer.snowballs, obstacleMapLeft, FlxObject.updateTouchingFlags);
+		FlxG.collide(leftPlayer, obstacleMapLeft);
 
 		FlxG.collide(rightPlayer, tempWalls);
 		FlxG.collide(rightPlayer, midline);
 		FlxG.overlap(rightPlayer.snowballs, tempWalls, FlxObject.updateTouchingFlags);
-		FlxG.overlap(rightPlayer.snowballs, obstacleMap, FlxObject.updateTouchingFlags);
-		FlxG.collide(rightPlayer, obstacleMap);
+		FlxG.overlap(rightPlayer.snowballs, obstacleMapRight, FlxObject.updateTouchingFlags);
+		FlxG.collide(rightPlayer, obstacleMapRight);
 
 		// obstacle placement
 		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth) * tileWidth + xOffset;
 		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * tileHeight + wallThickness;
 		
 		if (leftPlayer.building) {
-			obstacleMap.setTile(Math.ceil((leftPlayer.x)/tileWidth), Math.round(leftPlayer.y/tileHeight), 1);
+			obstacleMapLeft.setTile(Math.ceil((leftPlayer.x)/tileWidth), Math.round(leftPlayer.y/tileHeight), 1);
 		}
 	}
 }
