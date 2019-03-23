@@ -19,8 +19,8 @@ class SnowBall extends FlxSprite {
 		makeGraphic(24, 24, FlxColor.BLUE);
 		// DRAG - If you are using `acceleration`, you can use `maxVelocity` with it
 	 	// to cap the speed automatically (very useful!).
-		drag.set(ballSpeed*8, ballSpeed*8);
-		maxVelocity.set(ballSpeed, ballSpeed);
+		// drag.set(ballSpeed*8, ballSpeed*8);
+		// maxVelocity.set(ballSpeed, ballSpeed);
 		
 		//ballMovement = new Point(0, 0);   // brukedette til å holde styr på posisjon?
 		// collide function
