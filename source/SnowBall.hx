@@ -8,16 +8,26 @@ class SnowBall extends FlxSprite {
 	private var framesUntilTouchCheck:Int = 0; // Jallafix for bad collisions
 	private var bouncesLeft:Int = 3;
 	public var inUse:Bool = false;
-	private var framesUntilActive = 5;
+	private var framesUntilActive = 8;
 
 	public function new(x:Float, y:Float) {
 		super(x, y);
-		loadGraphic(AssetPaths.Snowball__png);
+		// loadGraphic(AssetPaths.Snowball__png);
+		loadGraphic("assets/images/Snowball explode.png", true, 50, 50);
+		animation.add("fly", [0], 1, false);
+		animation.add("smash", [1, 2, 3, 4], 16, false);
+		animation.play("fly");
+		setSize(12, 12);
+		offset.set(19, 19);
 	}
 
 	override public function update(elapsed:Float) {
-		if (framesUntilActive > 0) framesUntilActive--;
-		else inUse = true;
+		if (framesUntilActive > 0) {
+			framesUntilActive--;
+			if (framesUntilActive == 0) {
+				inUse = true;
+			}
+		}
 
 		if (framesUntilTouchCheck == 0) {
 			if (isTouching(FlxObject.LEFT)) {
@@ -48,7 +58,25 @@ class SnowBall extends FlxSprite {
 
 		if (bouncesLeft == 0) {
 			kill();
-			bouncesLeft = 3; // To be ready for revival
 		}
+	}
+
+	override public function kill() {
+		velocity.scale(0.05);
+		inUse = false; 
+		animation.play("smash");
+		animation.finishCallback = function(s:String) {
+			justCallSuperKill();
+			// Be ready for recycling
+			bouncesLeft = 3;
+			framesUntilActive = 8;
+			animation.finishCallback = null;
+			animation.play("fly"); 
+		}
+	}
+
+	// super.kill() couldn't be used in a local function.
+	private function justCallSuperKill() {
+		super.kill();
 	}
 }
