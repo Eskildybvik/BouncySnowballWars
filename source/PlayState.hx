@@ -9,6 +9,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxSpriteUtil;
+import flixel.input.gamepad.FlxGamepad;
 
 class PlayState extends FlxState {
 	// for obstacles and snow tiles
@@ -47,11 +48,16 @@ class PlayState extends FlxState {
 	[0,0,0,0,0,0,0,0,0]];
 
 	private var wallThickness:Int = 7;
-	private var xOffset:Int = 32;
+	private var xOffset:Int = 58;
 	private var midline:FlxSprite;
 	private var tempWalls:FlxSpriteGroup;
 	private var leftPlayer:Player;
 	private var rightPlayer:Player;
+
+	//For controlls
+	public var leftInput:FlxGamepad = null;
+	public var rightInput:FlxGamepad = null;
+	
 
 	override public function create():Void {	
 		super.create();
@@ -63,11 +69,12 @@ class PlayState extends FlxState {
 		midline.immovable = true;
 
 		leftPlayer = new Player(128, 128);
+		leftPlayer.gamepad = leftInput;
 		add(leftPlayer.snowballs);
 		add(leftPlayer);
 
 		rightPlayer = new Player(FlxG.width - 192, 128);
-		rightPlayer.gamepad = FlxG.gamepads.firstActive;
+		rightPlayer.gamepad = rightInput;
 		rightPlayer.flipX = true;
 		// Comment out these two lines to disable player 2
 		add(rightPlayer.snowballs);
@@ -126,11 +133,11 @@ class PlayState extends FlxState {
 		FlxG.collide(rightPlayer, obstacleMapRight);
 
 		// obstacle placement
-		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth) * tileWidth + xOffset;
+		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x)/tileWidth - 0.5) * tileWidth + xOffset;
 		leftPlayerHighlightBox.y = Math.round(leftPlayer.y/tileHeight) * tileHeight + wallThickness;
 		
 		if (leftPlayer.building) {
-			obstacleMapLeft.setTile(Math.ceil((leftPlayer.x)/tileWidth), Math.round(leftPlayer.y/tileHeight), 1);
+			obstacleMapLeft.setTile(Math.ceil((leftPlayer.x)/tileWidth - 0.5), Math.round(leftPlayer.y/tileHeight), 1);
 		}
 	}
 }

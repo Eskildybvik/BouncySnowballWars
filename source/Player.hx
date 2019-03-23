@@ -1,13 +1,11 @@
 package;
 
-import flixel.FlxObject;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.math.FlxPoint;
 import flixel.FlxSprite;
 import flixel.FlxG;
-import flixel.util.FlxColor;
 
 class Player extends FlxSprite {
 	private static inline var PLAYER_SPEED:Int = 500;
