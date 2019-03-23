@@ -87,7 +87,6 @@ class PlayState extends FlxState {
 		FlxG.collide(leftPlayer.snowballs, leftPlayer); // må fikse logikk, slik at ballen stopper i spiller 
 
 		FlxG.collide(leftPlayer, obstacleMap);
-		FlxG.collide(snowBall, obstacleMap); // må fikse slik at snøballer som kastes kolliderer med veggene
 
 		// obstacle placement
 		leftPlayerHighlightBox.x = Math.ceil((leftPlayer.x - xOffset)/tileWidth + 1) * tileWidth + xOffset;
