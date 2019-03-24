@@ -31,6 +31,8 @@ class GameOverState extends FlxState {
 		restartText.text = "Press R to restart";
 		restartText.screenCenter(X);
 		add(restartText);
+
+		FlxG.sound.play(Reg.leftPlayerHearts > Reg.rightPlayerHearts ? "assets/sounds/player1win.wav" : "assets/sounds/player2win.wav");
 	}
 
 	override public function update(elapsed:Float) {
