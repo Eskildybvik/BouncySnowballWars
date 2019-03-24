@@ -167,7 +167,7 @@ class PlayState extends FlxState {
 			var temp = new Obstacle(leftPlayerHighlightBox.x, leftPlayerHighlightBox.y);
 			obstacles.add(temp);
 			obstacles.sort(FlxSort.byY);
-			Reg.leftPlayerSnow -= 5;
+			Reg.leftPlayerSnow -= 3;
 		}
 
 		rightPlayerHighlightBox.x = Math.floor((rightPlayer.x)/tileWidth - 0.5) * 64;
@@ -177,7 +177,7 @@ class PlayState extends FlxState {
 			var temp = new Obstacle(rightPlayerHighlightBox.x, rightPlayerHighlightBox.y);
 			obstacles.add(temp);
 			obstacles.sort(FlxSort.byY);
-			Reg.rightPlayerSnow -= 5;
+			Reg.rightPlayerSnow -= 3;
 		}
 
 		//picking up snow
