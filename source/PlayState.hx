@@ -107,7 +107,7 @@ class PlayState extends FlxState {
 
 		add(new HUD());
 
-		FlxG.sound.playMusic("assets/music/RIP.ogg", 0.5, true);
+		FlxG.sound.playMusic("assets/music/RIP.ogg", 0.2, true);
 	}
 
 	override public function update(elapsed:Float):Void {
