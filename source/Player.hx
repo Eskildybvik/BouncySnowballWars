@@ -163,7 +163,7 @@ class Player extends FlxSprite {
 		else Reg.leftPlayerSnow--;
 		throwCooldown = 20;
 		animation.play(animation.name + "_throw", true);
-		FlxG.sound.playMusic("assets/sounds/sfx_throw.wav", 1, false);
+		FlxG.sound.play("assets/sounds/sfx_throw.wav", 1, false);
 		animation.finishCallback = function(s:String) {
 			animation.finishCallback = null;
 			var snowball = snowballs.recycle();
