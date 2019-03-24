@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxSprite;
 import flixel.FlxObject;
+import flixel.FlxG;
 
 
 class SnowBall extends FlxSprite {
