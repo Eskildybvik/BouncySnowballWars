@@ -169,5 +169,15 @@ class PlayState extends FlxState {
 			obstacles.add(temp);
 			obstacles.sort(FlxSort.byY);
 		}
+
+		//picking up snow
+
+		if (rightPlayer.pickUpSnow){
+			tileManager.getSnow(rightPlayer);
+		}
+		if (leftPlayer.pickUpSnow){
+			tileManager.getSnow(leftPlayer);
+		}
+
 	}	
 }
