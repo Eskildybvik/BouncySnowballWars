@@ -4,7 +4,7 @@ import flixel.FlxG;
 
 class TileManager{
     private var snowLevel:Int = 3;
-    private static inline var snowChance:Float = 0.02;
+    private static inline var snowChance:Float = 0.01;
     public var leftDirt:FlxTilemap = new FlxTilemap();
     public var rightDirt:FlxTilemap = new FlxTilemap();
     public var leftIce:FlxTilemap = new FlxTilemap();
