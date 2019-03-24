@@ -126,6 +126,7 @@ class Player extends FlxSprite {
 		}
 	}
 
+	// Finds an angle from the mouse, and uses the shoot() method
 	private function mouseShoot() {
 		if (throwCooldown > 0) return;
 		if ((flipX && Reg.rightPlayerSnow <= 0) || !flipX && Reg.leftPlayerSnow <= 0) return;
@@ -134,11 +135,7 @@ class Player extends FlxSprite {
 		throwCooldown = 20;
 		// Calculates the shooting angle based on the mouse
 		var tAngle = Math.atan2(FlxG.mouse.y - y-height/2, FlxG.mouse.x - x-width/2) * 57.29578;
-		var snowball = snowballs.recycle();
-		snowball.reset(x+width/2, y+height/2); // sets snowball starting point
-		snowball.velocity.set(SNOWBALL_SPEED, 0);
-		snowball.velocity.rotate(FlxPoint.weak(0,0), tAngle);
-		animation.play(animation.name + "_throw");
+		shoot(tAngle);
 	}
 
 	private function gamepadMovement() {
@@ -150,6 +147,7 @@ class Player extends FlxSprite {
 		}
 	}
 
+	// Gets an angle from the gamepad, and uses the shoot() method
 	private function gamepadShoot() {
 		if (throwCooldown > 0) return;
 		if ((flipX && Reg.rightPlayerSnow <= 0) || !flipX && Reg.leftPlayerSnow <= 0) return;
@@ -158,11 +156,16 @@ class Player extends FlxSprite {
 		throwCooldown = 20;
 		var rightStickVector = gamepad.getAnalogAxes(FlxGamepadInputID.RIGHT_ANALOG_STICK);
 		if (rightStickVector.x != 0 || rightStickVector.y != 0) { // A direction is required to shoot
-			var snowball = snowballs.recycle();
-			snowball.reset(x+width/2, y+height/2);
-			snowball.velocity.set(SNOWBALL_SPEED, 0);
-			snowball.velocity.rotate(FlxPoint.weak(0, 0), rightStickVector.degrees);
-			animation.play(animation.name + "_throw");
+			shoot(rightStickVector.degrees);
 		}
+	}
+
+	// Performs the shooting itself
+	private function shoot(angle:Float) {
+		var snowball = snowballs.recycle();
+		snowball.reset(x+width/2, y+height/2);
+		snowball.velocity.set(SNOWBALL_SPEED, 0);
+		snowball.velocity.rotate(FlxPoint.weak(0, 0), angle);
+		animation.play(animation.name + "_throw");
 	}
 }
