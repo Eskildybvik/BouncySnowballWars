@@ -28,7 +28,7 @@ class TileManager{
     public function new(parent:PlayState){
 
         leftDirt.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/DirtTiles.png", 64, 64, null, 0, 1, 6);
-        leftIce.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/IceTiles2.png", 64, 64, null, 0, 1, 6);
+        leftIce.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/IceTiles.png", 64, 64, null, 0, 1, 6);
         rightDirt.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/DirtTiles.png", 64, 64, null, 0, 1, 6);
         rightIce.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/IceTiles.png", 64, 64, null, 0, 1, 6);
 
