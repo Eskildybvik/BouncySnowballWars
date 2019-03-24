@@ -14,6 +14,8 @@ class GameOverState extends FlxState {
 	override public function create() {
 		super.create();
 
+		FlxG.sound.music.stop();
+
 		var winnerText = new FlxText(0, 300, 0, "", 40);
 		winnerText.text = Reg.leftPlayerHearts > Reg.rightPlayerHearts ? "Player 1 wins!" : "Player 2 wins!";
 		winnerText.screenCenter(X);

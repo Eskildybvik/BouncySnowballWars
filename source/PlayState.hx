@@ -60,8 +60,9 @@ class PlayState extends FlxState {
 		tileManager = new TileManager(this);
 
 		midline = new FlxSprite(0, 0);
-		midline.makeGraphic(8, FlxG.height, FlxColor.RED);
-		midline.screenCenter(X);
+		// midline.makeGraphic(8, FlxG.height, FlxColor.RED);
+		midline.loadGraphic("assets/images/Rope.png", false);
+		midline.screenCenter();
 		add(midline);
 		midline.immovable = true;
 
@@ -169,5 +170,15 @@ class PlayState extends FlxState {
 			obstacles.add(temp);
 			obstacles.sort(FlxSort.byY);
 		}
+
+		//picking up snow
+
+		if (rightPlayer.pickUpSnow){
+			tileManager.getSnow(rightPlayer);
+		}
+		if (leftPlayer.pickUpSnow){
+			tileManager.getSnow(leftPlayer);
+		}
+
 	}	
 }

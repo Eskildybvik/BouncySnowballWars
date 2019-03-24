@@ -13,7 +13,7 @@ class Obstacle extends FlxSprite {
 		loadGraphic("assets/images/obstacle.png", true, 64, 90);
 		setSize(64, 64);
 		offset.y = 22;
-		animation.add("build", [0, 1, 2], 8, false);
+		animation.add("build", [0, 1, 2], 4, false);
 		animation.add("hp3", [3], 1, false);
 		animation.add("hp2", [4], 1, false);
 		animation.add("hp1", [5], 1, false);
