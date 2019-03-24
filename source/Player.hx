@@ -13,6 +13,7 @@ class Player extends FlxSprite {
 	public var snowballs:FlxTypedSpriteGroup<SnowBall>;
 	public var gamepad:FlxGamepad = null;
 	public var building:Bool = false;
+	public var pickUpSnow:Bool = false;
 	private var throwCooldown:Int = 0;
 	public var isRightPlayer:Bool;
 
@@ -61,6 +62,9 @@ class Player extends FlxSprite {
 				mouseShoot();
 			}
 			if (FlxG.mouse.justPressedRight) build();
+			if (FlxG.keys.justPressed.SPACE){
+				pickUpSnow = true;
+			}
 		}
 		else {
 			gamepadMovement();
