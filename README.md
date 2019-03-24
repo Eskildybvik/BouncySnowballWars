@@ -27,4 +27,4 @@ Controller:
 - Right analog stick to aim
 - Right shoulder button to shoot (you MUST aim to shoot)
 - Left shoulder button to build an obstacle
-- A to collect the snow below you
+- Left trigger to collect the snow below you
