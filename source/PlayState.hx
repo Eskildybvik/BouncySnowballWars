@@ -100,6 +100,8 @@ class PlayState extends FlxState {
 		add(snowParticles);
 
 		add(new HUD());
+
+		FlxG.sound.playMusic("assets/music/RIP.ogg", 0.5, true);
 	}
 
 	override public function update(elapsed:Float):Void {
