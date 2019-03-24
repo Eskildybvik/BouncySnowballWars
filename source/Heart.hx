@@ -10,7 +10,6 @@ class Heart extends FlxSprite {
 		animation.add("full", [1], 1, false);
 		animation.add("destroy", [2, 3, 4, 0], 4, false);
 		animation.play("full");
-		FlxG.sound.play("assets/sounds/explosion.wav", 1, false);
 	}
 
 	public function clear() {
