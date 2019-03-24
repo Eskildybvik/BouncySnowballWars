@@ -183,10 +183,22 @@ class PlayState extends FlxState {
 		//picking up snow
 
 		if (rightPlayer.pickUpSnow){
-			tileManager.getSnow(rightPlayer);
+			if(tileManager.canGetSnow(rightPlayer) && rightPlayer.throwCooldown <= 0){
+				rightPlayer.throwCooldown = 20;
+				rightPlayer.animation.play("pick_up", true);
+				rightPlayer.animation.finishCallback = function(s:String) {
+					tileManager.getSnow(rightPlayer);
+				}
+			}
 		}
 		if (leftPlayer.pickUpSnow){
-			tileManager.getSnow(leftPlayer);
+			if(tileManager.canGetSnow(leftPlayer) && leftPlayer.throwCooldown <= 0){
+				leftPlayer.throwCooldown = 20;
+				leftPlayer.animation.play("pick_up", true);
+				leftPlayer.animation.finishCallback = function(s:String) {
+					tileManager.getSnow(leftPlayer);
+				}
+			}
 		}
 
 		//adjusting drag based on ice

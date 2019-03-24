@@ -28,7 +28,7 @@ class TileManager{
     public function new(parent:PlayState){
 
         leftDirt.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/DirtTiles.png", 64, 64, null, 0, 1, 6);
-        leftIce.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/IceTiles2.png", 64, 64, null, 0, 1, 6);
+        leftIce.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/IceTiles.png", 64, 64, null, 0, 1, 6);
         rightDirt.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/DirtTiles.png", 64, 64, null, 0, 1, 6);
         rightIce.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/IceTiles.png", 64, 64, null, 0, 1, 6);
 
@@ -140,5 +140,33 @@ class TileManager{
             return(leftIce.getData()[index] == 1);
         }
         
+    }
+
+    public function canGetSnow(player:Player):Bool{
+        var coords:FlxPoint = new FlxPoint(player.x + 32, player.y + 32);
+        if(player.isRightPlayer){
+            if( Reg.rightPlayerSnow >= 29){
+                return false;
+            }
+            var index:Int = rightDirt.getTileIndexByCoords(coords);
+            if(rightDirt.getData()[index] > 1){
+                return(true);
+            }
+            if(rightIce.getData()[index] > 1){
+                return(true);
+            }
+        }else{
+            if( Reg.leftPlayerSnow >= 29){
+                return false;
+            }
+            var index:Int = leftDirt.getTileIndexByCoords(coords);
+            if(leftDirt.getData()[index] > 1){
+                return(true);
+            }
+            if(leftIce.getData()[index] > 1){
+                return(true);
+            } 
+        }
+        return false;
     }
 }
