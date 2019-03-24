@@ -21,8 +21,8 @@ class Player extends FlxSprite {
 		loadGraphic(AssetPaths.playerwalkthrow__png, true, 64, 64);
 		animation.add("walk", [0, 3, 6, 9], 8, true);
 		animation.add("still", [0], 1, false);
-		animation.add("walk_throw", [0, 5, 11], 8, false);
-		animation.add("still_throw", [0, 1, 2], 8, false);
+		animation.add("walk_throw", [0, 5, 11], 24, false);
+		animation.add("still_throw", [0, 1, 2], 24, false);
 		animation.play("still");
 		setSize(46, 62);
 		offset.set(11, 1);
@@ -128,11 +128,6 @@ class Player extends FlxSprite {
 
 	// Finds an angle from the mouse, and uses the shoot() method
 	private function mouseShoot() {
-		if (throwCooldown > 0) return;
-		if ((flipX && Reg.rightPlayerSnow <= 0) || !flipX && Reg.leftPlayerSnow <= 0) return;
-		if (flipX) Reg.rightPlayerSnow--;
-		else Reg.leftPlayerSnow--;
-		throwCooldown = 20;
 		// Calculates the shooting angle based on the mouse
 		var tAngle = Math.atan2(FlxG.mouse.y - y-height/2, FlxG.mouse.x - x-width/2) * 57.29578;
 		shoot(tAngle);
@@ -149,11 +144,6 @@ class Player extends FlxSprite {
 
 	// Gets an angle from the gamepad, and uses the shoot() method
 	private function gamepadShoot() {
-		if (throwCooldown > 0) return;
-		if ((flipX && Reg.rightPlayerSnow <= 0) || !flipX && Reg.leftPlayerSnow <= 0) return;
-		if (flipX) Reg.rightPlayerSnow--;
-		else Reg.leftPlayerSnow--;
-		throwCooldown = 20;
 		var rightStickVector = gamepad.getAnalogAxes(FlxGamepadInputID.RIGHT_ANALOG_STICK);
 		if (rightStickVector.x != 0 || rightStickVector.y != 0) { // A direction is required to shoot
 			shoot(rightStickVector.degrees);
@@ -162,10 +152,18 @@ class Player extends FlxSprite {
 
 	// Performs the shooting itself
 	private function shoot(angle:Float) {
-		var snowball = snowballs.recycle();
-		snowball.reset(x+width/2, y+height/2);
-		snowball.velocity.set(SNOWBALL_SPEED, 0);
-		snowball.velocity.rotate(FlxPoint.weak(0, 0), angle);
-		animation.play(animation.name + "_throw");
+		if (throwCooldown > 0) return;
+		if ((flipX && Reg.rightPlayerSnow <= 0) || !flipX && Reg.leftPlayerSnow <= 0) return;
+		if (flipX) Reg.rightPlayerSnow--;
+		else Reg.leftPlayerSnow--;
+		throwCooldown = 20;
+		animation.play(animation.name + "_throw", true);
+		animation.finishCallback = function(s:String) {
+			animation.finishCallback = null;
+			var snowball = snowballs.recycle();
+			snowball.reset(x+width/2, y+height/2);
+			snowball.velocity.set(SNOWBALL_SPEED, 0);
+			snowball.velocity.rotate(FlxPoint.weak(0, 0), angle);
+		}
 	}
 }
