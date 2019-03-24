@@ -3,7 +3,7 @@ import flixel.tile.FlxTilemap;
 import flixel.FlxG;
 
 class TileManager{
-    private var snowLevel:Int = 5;
+    private var snowLevel:Int = 3;
     private static inline var snowChance:Float = 0.02;
     public var leftDirt:FlxTilemap = new FlxTilemap();
     public var rightDirt:FlxTilemap = new FlxTilemap();
@@ -28,7 +28,7 @@ class TileManager{
     public function new(parent:PlayState){
 
         leftDirt.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/DirtTiles.png", 64, 64, null, 0, 1, 6);
-        leftIce.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/IceTiles.png", 64, 64, null, 0, 1, 6);
+        leftIce.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/IceTiles2.png", 64, 64, null, 0, 1, 6);
         rightDirt.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/DirtTiles.png", 64, 64, null, 0, 1, 6);
         rightIce.loadMapFrom2DArray(obstacleMapLeftData, "assets/images/IceTiles.png", 64, 64, null, 0, 1, 6);
 
@@ -86,7 +86,7 @@ class TileManager{
 
     private function addArray(tileMap:FlxTilemap):Array<Int>{
         var arr:Array<Int> = [];
-        for(i in 1...5){
+        for(i in 1...3){
             if(tileMap.getTileInstances(i) != null){
                 arr = arr.concat(tileMap.getTileInstances(i));
             }
