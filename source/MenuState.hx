@@ -40,7 +40,6 @@ class MenuState extends FlxState {
                 prompt.text = "Player 2 press any button";
             }
         }else{ //Checks for inputs for right player
-            trace(FlxG.gamepads.lastActive);
             if(FlxG.gamepads.anyInput() && FlxG.gamepads.getFirstActiveGamepad() != leftInput){
                 rightInput = FlxG.gamepads.getFirstActiveGamepad();
                 startGame();

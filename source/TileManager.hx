@@ -97,32 +97,32 @@ class TileManager{
     public function getSnow(player:Player):Bool{
         var coords:FlxPoint = new FlxPoint(player.x + 32, player.y + 32);
         if(player.isRightPlayer){
-            if( Reg.rightPlayerSnow >= 30){
+            if( Reg.rightPlayerSnow >= 29){
                 return false;
             }
             var index:Int = rightDirt.getTileIndexByCoords(coords);
             if(rightDirt.getData()[index] > 1){
-                Reg.rightPlayerSnow ++;
+                Reg.rightPlayerSnow += 2;
                 rightDirt.setTileByIndex(index, rightDirt.getData()[index]-1);
                 return(true);
             }
             if(rightIce.getData()[index] > 1){
-                Reg.rightPlayerSnow ++;
+                Reg.rightPlayerSnow += 2;
                 rightIce.setTileByIndex(index, rightIce.getData()[index]-1);
                 return(true);
             }
         }else{
-            if( Reg.leftPlayerSnow >= 30){
+            if( Reg.leftPlayerSnow >= 29){
                 return false;
             }
             var index:Int = leftDirt.getTileIndexByCoords(coords);
             if(leftDirt.getData()[index] > 1){
-                Reg.leftPlayerSnow ++;
+                Reg.leftPlayerSnow += 2;
                 leftDirt.setTileByIndex(index, leftDirt.getData()[index]-1);
                 return(true);
             }
             if(leftIce.getData()[index] > 1){
-                Reg.leftPlayerSnow ++;
+                Reg.leftPlayerSnow += 2;
                 leftIce.setTileByIndex(index, leftIce.getData()[index]-1);
                 return(true);
             } 
