@@ -107,7 +107,7 @@ class PlayState extends FlxState {
 
 		add(new HUD());
 
-		FlxG.sound.playMusic("assets/music/RIP.ogg", 0.5, true);
+		FlxG.sound.playMusic("assets/music/RIP.ogg", 0.2, true);
 	}
 
 	override public function update(elapsed:Float):Void {
@@ -134,6 +134,7 @@ class PlayState extends FlxState {
 		FlxG.overlap(leftPlayer, allSnowballs, function(p:Player, s:SnowBall) {
 			if (!s.inUse) return; // Prevents player from taking damage from particles
 			Reg.leftPlayerHearts--;
+			p.damageEffect();
 			s.kill();
 			if (Reg.leftPlayerHearts == 0) {
 				FlxG.switchState(new GameOverState());
@@ -143,6 +144,7 @@ class PlayState extends FlxState {
 		FlxG.overlap(rightPlayer, allSnowballs, function(p:Player, s:SnowBall) {
 			if (!s.inUse) return;
 			Reg.rightPlayerHearts--;
+			p.damageEffect();
 			s.kill();
 			if (Reg.rightPlayerHearts == 0) {
 				FlxG.switchState(new GameOverState());
@@ -165,6 +167,7 @@ class PlayState extends FlxState {
 			var temp = new Obstacle(leftPlayerHighlightBox.x, leftPlayerHighlightBox.y);
 			obstacles.add(temp);
 			obstacles.sort(FlxSort.byY);
+			Reg.leftPlayerSnow -= 5;
 		}
 
 		rightPlayerHighlightBox.x = Math.floor((rightPlayer.x)/tileWidth - 0.5) * 64;
@@ -174,6 +177,7 @@ class PlayState extends FlxState {
 			var temp = new Obstacle(rightPlayerHighlightBox.x, rightPlayerHighlightBox.y);
 			obstacles.add(temp);
 			obstacles.sort(FlxSort.byY);
+			Reg.rightPlayerSnow -= 5;
 		}
 
 		//picking up snow

@@ -38,7 +38,7 @@ class GameOverState extends FlxState {
 		}
 		if (FlxG.keys.justReleased.R || (gamepad != null ? gamepad.anyJustReleased([A, B]) : false)) {
 			Reg.leftPlayerHearts = Reg.rightPlayerHearts = 5;
-			Reg.leftPlayerSnow = Reg.rightPlayerSnow = 30;
+			Reg.leftPlayerSnow = Reg.rightPlayerSnow = 0;
 			FlxG.resetGame();
 		}
 		super.update(elapsed);
