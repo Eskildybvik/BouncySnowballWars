@@ -16,7 +16,7 @@ class Player extends FlxSprite {
 	public var gamepad:FlxGamepad = null;
 	public var building:Bool = false;
 	public var pickUpSnow:Bool = false;
-	private var throwCooldown:Int = 0;
+	public var throwCooldown:Int = 0;
 	public var isRightPlayer:Bool;
 	private var damageEffectFrames:Int = 0;
 
@@ -32,6 +32,7 @@ class Player extends FlxSprite {
 		animation.add("still", [0], 1, false);
 		animation.add("walk_throw", [0, 5, 11], 24, false);
 		animation.add("still_throw", [0, 1, 2], 24, false);
+		animation.add("pick_up", [0, 12, 12], 24, false);
 		animation.play("still");
 		setSize(46, 62);
 		offset.set(11, 1);
@@ -63,6 +64,7 @@ class Player extends FlxSprite {
 
 	public function damageEffect() {
 		FlxG.sound.play("assets/sounds/robloxDeath.wav");
+		FlxG.sound.play("assets/sounds/thunk.wav");
 		damageEffectFrames = DAMAGE_EFFECT_DURATION;
 	}
 
@@ -83,7 +85,7 @@ class Player extends FlxSprite {
 				gamepadShoot();
 			}
 			if (gamepad.justPressed.LEFT_SHOULDER) build();
-			if (gamepad.justPressed.LEFT_TRIGGER){
+			if (gamepad.justPressed.LEFT_TRIGGER || gamepad.justPressed.RIGHT_TRIGGER){
 				pickUpSnow = true;
 			}
 		}
