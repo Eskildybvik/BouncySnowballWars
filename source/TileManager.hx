@@ -125,6 +125,18 @@ class TileManager{
         return false;
     }
 
+    public function isOnIce(player:Player){
+        var coords:FlxPoint = new FlxPoint(player.x + 32, player.y + 32);
+        if(player.isRightPlayer){
+            var index:Int = rightDirt.getTileIndexByCoords(coords);
+            return(rightIce.getData()[index] == 1);
+        }else{
+            var index:Int = leftDirt.getTileIndexByCoords(coords);
+            return(leftIce.getData()[index] == 1);
+        }
+        
+    }
+
 
 
 
