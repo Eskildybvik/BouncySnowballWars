@@ -64,6 +64,7 @@ class Player extends FlxSprite {
 
 	public function damageEffect() {
 		FlxG.sound.play("assets/sounds/robloxDeath.wav");
+		FlxG.sound.play("assets/sounds/thunk.wav");
 		damageEffectFrames = DAMAGE_EFFECT_DURATION;
 	}
 
@@ -92,7 +93,7 @@ class Player extends FlxSprite {
 
 	private function build() {
 		// FlipX is used to determine if this is the right or left player
-		if ((flipX && Reg.rightPlayerSnow <= 4) || (!flipX && Reg.leftPlayerSnow <= 4)) return;
+		if ((flipX && Reg.rightPlayerSnow <3) || (!flipX && Reg.leftPlayerSnow <3)) return;
 		building = true;
 	}
 

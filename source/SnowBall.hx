@@ -8,7 +8,7 @@ class SnowBall extends FlxSprite {
 	private var framesUntilTouchCheck:Int = 0; // Jallafix for bad collisions
 	private var bouncesLeft:Int = 3;
 	public var inUse:Bool = false;
-	private var framesUntilActive = 8;
+	private var framesUntilActive = 12;
 
 	public function new(x:Float, y:Float) {
 		super(x, y);
@@ -69,7 +69,7 @@ class SnowBall extends FlxSprite {
 			justCallSuperKill();
 			// Be ready for recycling
 			bouncesLeft = 3;
-			framesUntilActive = 8;
+			framesUntilActive = 12;
 			animation.finishCallback = null;
 			animation.play("fly"); 
 		}
