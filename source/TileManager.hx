@@ -44,8 +44,6 @@ class TileManager{
                     leftDirt.setTile(i, j, 1);
                     rightDirt.setTile(9-i, j, 1);
                 }
-                
-
             }
         }
 
