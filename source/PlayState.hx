@@ -134,6 +134,7 @@ class PlayState extends FlxState {
 		FlxG.overlap(leftPlayer, allSnowballs, function(p:Player, s:SnowBall) {
 			if (!s.inUse) return; // Prevents player from taking damage from particles
 			Reg.leftPlayerHearts--;
+			p.damageEffect();
 			s.kill();
 			if (Reg.leftPlayerHearts == 0) {
 				FlxG.switchState(new GameOverState());
@@ -143,6 +144,7 @@ class PlayState extends FlxState {
 		FlxG.overlap(rightPlayer, allSnowballs, function(p:Player, s:SnowBall) {
 			if (!s.inUse) return;
 			Reg.rightPlayerHearts--;
+			p.damageEffect();
 			s.kill();
 			if (Reg.rightPlayerHearts == 0) {
 				FlxG.switchState(new GameOverState());
