@@ -3,6 +3,7 @@ import flixel.tile.FlxTilemap;
 import flixel.FlxG;
 
 class TileManager{
+    private var snowLevel:Int = 5;
     private static inline var snowChance:Float = 0.02;
     public var leftDirt:FlxTilemap = new FlxTilemap();
     public var rightDirt:FlxTilemap = new FlxTilemap();
@@ -39,11 +40,11 @@ class TileManager{
         for(i in 0...10){
             for(j in 0...11){
                 if(FlxG.random.bool()){
-                    leftIce.setTile(i, j, 1);
-                    rightIce.setTile(9-i, j, 1);
+                    leftIce.setTile(i, j, snowLevel);
+                    rightIce.setTile(9-i, j, snowLevel);
                 }else{
-                    leftDirt.setTile(i, j, 1);
-                    rightDirt.setTile(9-i, j, 1);
+                    leftDirt.setTile(i, j, snowLevel);
+                    rightDirt.setTile(9-i, j, snowLevel);
                 }
             }
         }
@@ -140,8 +141,4 @@ class TileManager{
         }
         
     }
-
-
-
-
 }
