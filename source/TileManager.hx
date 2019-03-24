@@ -94,6 +94,36 @@ class TileManager{
         return arr;
     }
 
+    public function getSnow(player:Player):Bool{
+        var coords:FlxPoint = new FlxPoint(player.x + 32, player.y + 32);
+        if(player.isRightPlayer){
+            var index:Int = rightDirt.getTileIndexByCoords(coords);
+            if(rightDirt.getData()[index] > 1){
+                Reg.rightPlayerSnow ++;
+                rightDirt.setTileByIndex(index, rightDirt.getData()[index]+1)
+                return(true);
+            }
+            if(rightIce.getData()[index] > 1){
+                Reg.rightPlayerSnow ++;
+                rightIce.setTileByIndex(index, rightIce.getData()[index]+1)
+                return(true);
+            }
+        }else{
+            var index:Int = leftDirt.getTileIndexByCoords(coords);
+            if(leftDirt.getData()[index] > 1){
+                Reg.leftPlayerSnow ++;
+                leftDirt.setTileByIndex(index, leftDirt.getData()[index]+1)
+                return(true);
+            }
+            if(leftIce.getData()[index] > 1){
+                Reg.leftPlayerSnow ++;
+                leftIce.setTileByIndex(index, leftIce.getData()[index]+1)
+                return(true);
+            } 
+        }
+        return false;
+    }
+
 
 
 

@@ -118,6 +118,7 @@ class PlayState extends FlxState {
 		FlxG.overlap(allSnowballs, walls, FlxObject.updateTouchingFlags);
 
 		FlxG.overlap(allSnowballs, obstacles, function(s:SnowBall, o:Obstacle) {
+			if (!	o.inUse) return;
 			FlxObject.updateTouchingFlags(s, o);
 			o.damage();
 		});
