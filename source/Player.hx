@@ -83,7 +83,7 @@ class Player extends FlxSprite {
 				gamepadShoot();
 			}
 			if (gamepad.justPressed.LEFT_SHOULDER) build();
-			if (gamepad.justPressed.A){
+			if (gamepad.justPressed.LEFT_TRIGGER){
 				pickUpSnow = true;
 			}
 		}
