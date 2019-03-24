@@ -2,7 +2,7 @@ import flixel.tile.FlxTilemap;
 import flixel.FlxG;
 
 class TileManager{
-    private static inline var snowChance:Float = 0.1;
+    private static inline var snowChance:Float = 0.02;
     public var leftDirt:FlxTilemap = new FlxTilemap();
     public var rightDirt:FlxTilemap = new FlxTilemap();
     public var leftIce:FlxTilemap = new FlxTilemap();
