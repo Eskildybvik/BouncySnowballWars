@@ -16,17 +16,17 @@ class GameOverState extends FlxState {
 
 		FlxG.sound.music.stop();
 
-		var winnerText = new FlxText(0, 300, 0, "", 40);
+		var winnerText = new FlxText(0, 480, 0, "", 40);
 		winnerText.text = Reg.leftPlayerHearts > Reg.rightPlayerHearts ? "Player 1 wins!" : "Player 2 wins!";
 		winnerText.screenCenter(X);
 		add(winnerText);
 
-		var winnerIcon = new FlxSprite(0, 0);
+		var winnerIcon = new FlxSprite(0, 180);
 		winnerIcon.loadGraphic(Reg.leftPlayerHearts > Reg.rightPlayerHearts ? "assets/images/Player1win.png" : "assets/images/Player2win.png");
-		winnerIcon.screenCenter();
+		winnerIcon.screenCenter(X);
 		add(winnerIcon);
 
-		var restartText = new FlxText(0, 500, 0, "", 24);
+		var restartText = new FlxText(0, 600, 0, "", 24);
 		restartText.text = "Press R to restart";
 		restartText.screenCenter(X);
 		add(restartText);
