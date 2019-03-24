@@ -49,6 +49,7 @@ class Player extends FlxSprite {
 
 	override public function update(elapsed:Float) {
 		building = false;
+		pickUpSnow = false;
 		controls();
 		animate();
 		throwCooldown--;
