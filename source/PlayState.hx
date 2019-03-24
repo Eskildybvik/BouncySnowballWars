@@ -65,14 +65,13 @@ class PlayState extends FlxState {
 		add(midline);
 		midline.immovable = true;
 
-		leftPlayer = new Player(128, 128);
+		leftPlayer = new Player(128, 128, false);
 		leftPlayer.gamepad = leftInput;
 		add(leftPlayer.snowballs);
 		add(leftPlayer);
 
-		rightPlayer = new Player(FlxG.width - 192, 128);
+		rightPlayer = new Player(FlxG.width - 192, 128, true);
 		rightPlayer.gamepad = rightInput;
-		rightPlayer.flipX = true;
 		// Comment out these two lines to disable player 2
 		add(rightPlayer.snowballs);
 		add(rightPlayer);

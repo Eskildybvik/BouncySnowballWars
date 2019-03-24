@@ -14,11 +14,16 @@ class Player extends FlxSprite {
 	public var gamepad:FlxGamepad = null;
 	public var building:Bool = false;
 	private var throwCooldown:Int = 0;
+	public var isRightPlayer:Bool;
 
-	public function new(x:Float, y:Float) {
+	public function new(x:Float, y:Float, right:Bool) {
 		super(x, y);
 
-		loadGraphic(AssetPaths.playerwalkthrow__png, true, 64, 64);
+		isRightPlayer = right; 
+		flipX = right;
+
+		if (!isRightPlayer) loadGraphic("assets/images/playerwalkthrow.png", true, 64, 64);
+		else loadGraphic("assets/images/player2walkthrow.png", true, 64, 64);
 		animation.add("walk", [0, 3, 6, 9], 8, true);
 		animation.add("still", [0], 1, false);
 		animation.add("walk_throw", [0, 5, 11], 24, false);
