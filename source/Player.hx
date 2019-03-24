@@ -9,7 +9,7 @@ import flixel.FlxG;
 
 class Player extends FlxSprite {
 	private static inline var PLAYER_SPEED:Int = 500;
-	private static inline var SNOWBALL_SPEED:Int = 1000;
+	private static inline var SNOWBALL_SPEED:Int = 900;
 	public var snowballs:FlxTypedSpriteGroup<SnowBall>;
 	public var gamepad:FlxGamepad = null;
 	public var building:Bool = false;
@@ -166,7 +166,7 @@ class Player extends FlxSprite {
 		animation.finishCallback = function(s:String) {
 			animation.finishCallback = null;
 			var snowball = snowballs.recycle();
-			snowball.reset(x+width/2, y+height/2);
+			snowball.reset(x + width/2 - snowball.width/2, y + height/2 - snowball.height/2);
 			snowball.velocity.set(SNOWBALL_SPEED, 0);
 			snowball.velocity.rotate(FlxPoint.weak(0, 0), angle);
 		}
