@@ -1,5 +1,6 @@
 package;
 
+import powerups.Powerup;
 import flixel.addons.display.FlxBackdrop;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxSort;
@@ -18,12 +19,14 @@ class PlayState extends FlxState {
 	// for obstacles and snow tiles
 	static inline var tileWidth:Int = 64;
 	static inline var tileHeight:Int = 64;
+	private static inline var POWERUP_SPAWN_CHANCE = 0.1;
 	private var snowMapLeft:FlxTilemap;
 	private var snowMapRight:FlxTilemap;
 	private var leftPlayerHighlightBox:FlxSprite;
 	private var rightPlayerHighlightBox:FlxSprite;
 
 	private var obstacles:FlxTypedSpriteGroup<Obstacle>;
+	private var powerupGroup:FlxTypedSpriteGroup<powerups.Powerup>;
 
 	private var walls:FlxTilemap;
 	private var midline:FlxSprite;
@@ -80,6 +83,8 @@ class PlayState extends FlxState {
 
 		obstacles = new FlxTypedSpriteGroup<Obstacle>(0, 0);
 		add(obstacles);
+		powerupGroup = new FlxTypedSpriteGroup<powerups.Powerup>(0, 0);
+		add(powerupGroup);
 
 		leftPlayerHighlightBox = new FlxSprite(0, 0);
 		leftPlayerHighlightBox.makeGraphic(tileWidth, tileHeight, FlxColor.TRANSPARENT);
@@ -121,7 +126,7 @@ class PlayState extends FlxState {
 		FlxG.overlap(allSnowballs, walls, FlxObject.updateTouchingFlags);
 
 		FlxG.overlap(allSnowballs, obstacles, function(s:SnowBall, o:Obstacle) {
-			if (!	o.inUse) return;
+			if (!o.inUse) return;
 			FlxObject.updateTouchingFlags(s, o);
 			o.damage();
 		});
@@ -192,6 +197,21 @@ class PlayState extends FlxState {
 			leftPlayer.drag.set(4000, 4000);
 		}
 
-
+		// Maybe generates powerups
+		if (FlxG.random.bool(POWERUP_SPAWN_CHANCE)) {
+			// Places a random powerup at a random location of the map.
+			var pX = FlxG.random.int(tileWidth, FlxG.width-tileWidth*2);
+			var pY = FlxG.random.int(tileHeight, FlxG.height - tileHeight*2);
+			powerupGroup.add(Powerup.getRandomPowerup(pX, pY));
+		}
+		FlxG.overlap(leftPlayer, powerupGroup, function(pl:Player, pu:Powerup) {
+			if (pu.collected) return;
+			pu.collect(pl);
+		});
+		FlxG.overlap(rightPlayer, powerupGroup, function(pl:Player, pu:Powerup) {
+			if (pu.collected) return;
+			pu.collect(pl);
+		});
+		
 	}	
 }
