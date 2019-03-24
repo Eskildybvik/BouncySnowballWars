@@ -1,8 +1,9 @@
+import flixel.math.FlxPoint;
 import flixel.tile.FlxTilemap;
 import flixel.FlxG;
 
 class TileManager{
-    private static inline var snowChance:Float = 0.1;
+    private static inline var snowChance:Float = 0.02;
     public var leftDirt:FlxTilemap = new FlxTilemap();
     public var rightDirt:FlxTilemap = new FlxTilemap();
     public var leftIce:FlxTilemap = new FlxTilemap();
@@ -90,6 +91,54 @@ class TileManager{
             }
         }
         return arr;
+    }
+
+    public function getSnow(player:Player):Bool{
+        var coords:FlxPoint = new FlxPoint(player.x + 32, player.y + 32);
+        if(player.isRightPlayer){
+            if( Reg.rightPlayerSnow >= 30){
+                return false;
+            }
+            var index:Int = rightDirt.getTileIndexByCoords(coords);
+            if(rightDirt.getData()[index] > 1){
+                Reg.rightPlayerSnow ++;
+                rightDirt.setTileByIndex(index, rightDirt.getData()[index]-1);
+                return(true);
+            }
+            if(rightIce.getData()[index] > 1){
+                Reg.rightPlayerSnow ++;
+                rightIce.setTileByIndex(index, rightIce.getData()[index]-1);
+                return(true);
+            }
+        }else{
+            if( Reg.leftPlayerSnow >= 30){
+                return false;
+            }
+            var index:Int = leftDirt.getTileIndexByCoords(coords);
+            if(leftDirt.getData()[index] > 1){
+                Reg.leftPlayerSnow ++;
+                leftDirt.setTileByIndex(index, leftDirt.getData()[index]-1);
+                return(true);
+            }
+            if(leftIce.getData()[index] > 1){
+                Reg.leftPlayerSnow ++;
+                leftIce.setTileByIndex(index, leftIce.getData()[index]-1);
+                return(true);
+            } 
+        }
+        return false;
+    }
+
+    public function isOnIce(player:Player){
+        var coords:FlxPoint = new FlxPoint(player.x + 32, player.y + 32);
+        if(player.isRightPlayer){
+            var index:Int = rightDirt.getTileIndexByCoords(coords);
+            return(rightIce.getData()[index] == 1);
+        }else{
+            var index:Int = leftDirt.getTileIndexByCoords(coords);
+            return(leftIce.getData()[index] == 1);
+        }
+        
     }
 
 

@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.FlxG;
 
 class Heart extends FlxSprite {
 	public function new(x:Float, y:Float) {

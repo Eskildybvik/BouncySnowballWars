@@ -9,20 +9,26 @@ import flixel.FlxG;
 
 class Player extends FlxSprite {
 	private static inline var PLAYER_SPEED:Int = 500;
-	private static inline var SNOWBALL_SPEED:Int = 1000;
+	private static inline var SNOWBALL_SPEED:Int = 900;
 	public var snowballs:FlxTypedSpriteGroup<SnowBall>;
 	public var gamepad:FlxGamepad = null;
 	public var building:Bool = false;
+	public var pickUpSnow:Bool = false;
 	private var throwCooldown:Int = 0;
+	public var isRightPlayer:Bool;
 
-	public function new(x:Float, y:Float) {
+	public function new(x:Float, y:Float, right:Bool) {
 		super(x, y);
 
-		loadGraphic(AssetPaths.playerwalkthrow__png, true, 64, 64);
+		isRightPlayer = right; 
+		flipX = right;
+
+		if (!isRightPlayer) loadGraphic("assets/images/playerwalkthrow.png", true, 64, 64);
+		else loadGraphic("assets/images/player2walkthrow.png", true, 64, 64);
 		animation.add("walk", [0, 3, 6, 9], 8, true);
 		animation.add("still", [0], 1, false);
-		animation.add("walk_throw", [0, 5, 11], 8, false);
-		animation.add("still_throw", [0, 1, 2], 8, false);
+		animation.add("walk_throw", [0, 5, 11], 24, false);
+		animation.add("still_throw", [0, 1, 2], 24, false);
 		animation.play("still");
 		setSize(46, 62);
 		offset.set(11, 1);
@@ -43,6 +49,7 @@ class Player extends FlxSprite {
 
 	override public function update(elapsed:Float) {
 		building = false;
+		pickUpSnow = false;
 		controls();
 		animate();
 		throwCooldown--;
@@ -56,6 +63,9 @@ class Player extends FlxSprite {
 				mouseShoot();
 			}
 			if (FlxG.mouse.justPressedRight) build();
+			if (FlxG.keys.justPressed.SPACE){
+				pickUpSnow = true;
+			}
 		}
 		else {
 			gamepadMovement();
@@ -63,6 +73,9 @@ class Player extends FlxSprite {
 				gamepadShoot();
 			}
 			if (gamepad.justPressed.LEFT_SHOULDER) build();
+			if (gamepad.justPressed.A){
+				pickUpSnow = true;
+			}
 		}
 	}
 
@@ -126,19 +139,11 @@ class Player extends FlxSprite {
 		}
 	}
 
+	// Finds an angle from the mouse, and uses the shoot() method
 	private function mouseShoot() {
-		if (throwCooldown > 0) return;
-		if ((flipX && Reg.rightPlayerSnow <= 0) || !flipX && Reg.leftPlayerSnow <= 0) return;
-		if (flipX) Reg.rightPlayerSnow--;
-		else Reg.leftPlayerSnow--;
-		throwCooldown = 20;
 		// Calculates the shooting angle based on the mouse
 		var tAngle = Math.atan2(FlxG.mouse.y - y-height/2, FlxG.mouse.x - x-width/2) * 57.29578;
-		var snowball = snowballs.recycle();
-		snowball.reset(x+width/2, y+height/2); // sets snowball starting point
-		snowball.velocity.set(SNOWBALL_SPEED, 0);
-		snowball.velocity.rotate(FlxPoint.weak(0,0), tAngle);
-		animation.play(animation.name + "_throw");
+		shoot(tAngle);
 	}
 
 	private function gamepadMovement() {
@@ -150,19 +155,29 @@ class Player extends FlxSprite {
 		}
 	}
 
+	// Gets an angle from the gamepad, and uses the shoot() method
 	private function gamepadShoot() {
+		var rightStickVector = gamepad.getAnalogAxes(FlxGamepadInputID.RIGHT_ANALOG_STICK);
+		if (rightStickVector.x != 0 || rightStickVector.y != 0) { // A direction is required to shoot
+			shoot(rightStickVector.degrees);
+		}
+	}
+
+	// Performs the shooting itself
+	private function shoot(angle:Float) {
 		if (throwCooldown > 0) return;
 		if ((flipX && Reg.rightPlayerSnow <= 0) || !flipX && Reg.leftPlayerSnow <= 0) return;
 		if (flipX) Reg.rightPlayerSnow--;
 		else Reg.leftPlayerSnow--;
 		throwCooldown = 20;
-		var rightStickVector = gamepad.getAnalogAxes(FlxGamepadInputID.RIGHT_ANALOG_STICK);
-		if (rightStickVector.x != 0 || rightStickVector.y != 0) { // A direction is required to shoot
+		animation.play(animation.name + "_throw", true);
+		FlxG.sound.play("assets/sounds/sfx_throw.wav", 1, false);
+		animation.finishCallback = function(s:String) {
+			animation.finishCallback = null;
 			var snowball = snowballs.recycle();
-			snowball.reset(x+width/2, y+height/2);
+			snowball.reset(x + width/2 - snowball.width/2, y + height/2 - snowball.height/2);
 			snowball.velocity.set(SNOWBALL_SPEED, 0);
-			snowball.velocity.rotate(FlxPoint.weak(0, 0), rightStickVector.degrees);
-			animation.play(animation.name + "_throw");
+			snowball.velocity.rotate(FlxPoint.weak(0, 0), angle);
 		}
 	}
 }
