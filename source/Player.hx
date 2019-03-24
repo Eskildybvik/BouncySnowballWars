@@ -63,6 +63,7 @@ class Player extends FlxSprite {
 
 	public function damageEffect() {
 		FlxG.sound.play("assets/sounds/robloxDeath.wav");
+		FlxG.sound.play("assets/sounds/thunk.wav");
 		damageEffectFrames = DAMAGE_EFFECT_DURATION;
 	}
 
