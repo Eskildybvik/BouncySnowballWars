@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxColor;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
@@ -10,12 +11,14 @@ import flixel.FlxG;
 class Player extends FlxSprite {
 	private static inline var PLAYER_SPEED:Int = 500;
 	private static inline var SNOWBALL_SPEED:Int = 900;
+	private static inline var DAMAGE_EFFECT_DURATION:Int = 15;
 	public var snowballs:FlxTypedSpriteGroup<SnowBall>;
 	public var gamepad:FlxGamepad = null;
 	public var building:Bool = false;
 	public var pickUpSnow:Bool = false;
 	private var throwCooldown:Int = 0;
 	public var isRightPlayer:Bool;
+	private var damageEffectFrames:Int = 0;
 
 	public function new(x:Float, y:Float, right:Bool) {
 		super(x, y);
@@ -50,10 +53,16 @@ class Player extends FlxSprite {
 	override public function update(elapsed:Float) {
 		building = false;
 		pickUpSnow = false;
+		color = FlxColor.fromRGB(255, 255-damageEffectFrames*10, 255-damageEffectFrames*10);
+		damageEffectFrames = damageEffectFrames == 0 ? 0 : damageEffectFrames - 1;
 		controls();
 		animate();
 		throwCooldown--;
 		super.update(elapsed);
+	}
+
+	public function damageEffect() {
+		damageEffectFrames = DAMAGE_EFFECT_DURATION;
 	}
 
 	private function controls() {
