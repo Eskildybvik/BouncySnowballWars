@@ -98,6 +98,9 @@ class TileManager{
     public function getSnow(player:Player):Bool{
         var coords:FlxPoint = new FlxPoint(player.x + 32, player.y + 32);
         if(player.isRightPlayer){
+            if( Reg.rightPlayerSnow >= 30){
+                return false;
+            }
             var index:Int = rightDirt.getTileIndexByCoords(coords);
             if(rightDirt.getData()[index] > 1){
                 Reg.rightPlayerSnow ++;
@@ -110,6 +113,9 @@ class TileManager{
                 return(true);
             }
         }else{
+            if( Reg.leftPlayerSnow >= 30){
+                return false;
+            }
             var index:Int = leftDirt.getTileIndexByCoords(coords);
             if(leftDirt.getData()[index] > 1){
                 Reg.leftPlayerSnow ++;
