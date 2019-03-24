@@ -187,9 +187,9 @@ class PlayState extends FlxState {
 			rightPlayer.drag.set(4000, 4000);
 		}
 		if(tileManager.isOnIce(leftPlayer)){
-			rightPlayer.drag.set(0, 0);
+			leftPlayer.drag.set(0, 0);
 		}else{
-			rightPlayer.drag.set(4000, 4000);
+			leftPlayer.drag.set(4000, 4000);
 		}
 
 
