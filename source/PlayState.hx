@@ -167,7 +167,7 @@ class PlayState extends FlxState {
 			var temp = new Obstacle(leftPlayerHighlightBox.x, leftPlayerHighlightBox.y);
 			obstacles.add(temp);
 			obstacles.sort(FlxSort.byY);
-			Reg.leftPlayerSnow -= 5;
+			Reg.leftPlayerSnow -= 2;
 		}
 
 		rightPlayerHighlightBox.x = Math.floor((rightPlayer.x)/tileWidth - 0.5) * 64;
@@ -177,16 +177,28 @@ class PlayState extends FlxState {
 			var temp = new Obstacle(rightPlayerHighlightBox.x, rightPlayerHighlightBox.y);
 			obstacles.add(temp);
 			obstacles.sort(FlxSort.byY);
-			Reg.rightPlayerSnow -= 5;
+			Reg.rightPlayerSnow -= 2;
 		}
 
 		//picking up snow
 
 		if (rightPlayer.pickUpSnow){
-			tileManager.getSnow(rightPlayer);
+			if(tileManager.canGetSnow(rightPlayer) && rightPlayer.throwCooldown <= 0){
+				rightPlayer.throwCooldown = 20;
+				rightPlayer.animation.play("pick_up", true);
+				rightPlayer.animation.finishCallback = function(s:String) {
+					tileManager.getSnow(rightPlayer);
+				}
+			}
 		}
 		if (leftPlayer.pickUpSnow){
-			tileManager.getSnow(leftPlayer);
+			if(tileManager.canGetSnow(leftPlayer) && leftPlayer.throwCooldown <= 0){
+				leftPlayer.throwCooldown = 20;
+				leftPlayer.animation.play("pick_up", true);
+				leftPlayer.animation.finishCallback = function(s:String) {
+					tileManager.getSnow(leftPlayer);
+				}
+			}
 		}
 
 		//adjusting drag based on ice

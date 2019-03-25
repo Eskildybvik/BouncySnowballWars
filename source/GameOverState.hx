@@ -9,7 +9,8 @@ import flixel.FlxSprite;
 
 class GameOverState extends FlxState {	
 	
-	private var gamepad:FlxGamepad = null;
+	private var gamepad1:FlxGamepad = null;
+	private var gamepad2:FlxGamepad = null;
 
 	override public function create() {
 		super.create();
@@ -30,15 +31,20 @@ class GameOverState extends FlxState {
 		restartText.text = "Press R to restart";
 		restartText.screenCenter(X);
 		add(restartText);
+
+		FlxG.sound.play(Reg.leftPlayerHearts > Reg.rightPlayerHearts ? "assets/sounds/player1win.wav" : "assets/sounds/player2win.wav");
 	}
 
 	override public function update(elapsed:Float) {
-		if (gamepad == null) {
-			gamepad = FlxG.gamepads.getFirstActiveGamepad();
+		if (gamepad1 == null) {
+			gamepad1 = FlxG.gamepads.getFirstActiveGamepad();
 		}
-		if (FlxG.keys.justReleased.R || (gamepad != null ? gamepad.anyJustReleased([A, B]) : false)) {
+		else if (gamepad2 == null && FlxG.gamepads.getFirstActiveGamepad() != gamepad1){
+			gamepad2 = FlxG.gamepads.getFirstActiveGamepad();
+		}
+		if (FlxG.keys.justReleased.R || (gamepad1 != null ? gamepad1.anyJustReleased([A, B]) : false) || (gamepad2 != null ? gamepad2.anyJustReleased([A, B]) : false)) {
 			Reg.leftPlayerHearts = Reg.rightPlayerHearts = 5;
-			Reg.leftPlayerSnow = Reg.rightPlayerSnow = 0;
+			Reg.leftPlayerSnow = Reg.rightPlayerSnow = 5;
 			FlxG.resetGame();
 		}
 		super.update(elapsed);

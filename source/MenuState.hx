@@ -32,7 +32,7 @@ class MenuState extends FlxState {
         if(findingLeft){
             if(FlxG.gamepads.anyInput()){
                 findingLeft = false;
-                leftInput = FlxG.gamepads.lastActive;
+                leftInput = FlxG.gamepads.getFirstActiveGamepad();
                 prompt.text = "Player 2 press any button";
             }else if(FlxG.keys.firstJustPressed() != -1){
                 findingLeft = false;
@@ -40,8 +40,8 @@ class MenuState extends FlxState {
                 prompt.text = "Player 2 press any button";
             }
         }else{ //Checks for inputs for right player
-            if(FlxG.gamepads.anyInput() && leftInput != FlxG.gamepads.lastActive){
-                rightInput = FlxG.gamepads.lastActive;
+            if(FlxG.gamepads.anyInput() && FlxG.gamepads.getFirstActiveGamepad() != leftInput){
+                rightInput = FlxG.gamepads.getFirstActiveGamepad();
                 startGame();
             }else if(FlxG.keys.firstJustPressed() != -1 && leftInput != null){
                 rightInput = null;

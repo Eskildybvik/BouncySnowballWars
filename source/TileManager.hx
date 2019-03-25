@@ -3,8 +3,8 @@ import flixel.tile.FlxTilemap;
 import flixel.FlxG;
 
 class TileManager{
-    private var snowLevel:Int = 5;
-    private static inline var snowChance:Float = 0.02;
+    private var snowLevel:Int = 3;
+    private static inline var snowChance:Float = 0.01;
     public var leftDirt:FlxTilemap = new FlxTilemap();
     public var rightDirt:FlxTilemap = new FlxTilemap();
     public var leftIce:FlxTilemap = new FlxTilemap();
@@ -86,7 +86,7 @@ class TileManager{
 
     private function addArray(tileMap:FlxTilemap):Array<Int>{
         var arr:Array<Int> = [];
-        for(i in 1...5){
+        for(i in 1...3){
             if(tileMap.getTileInstances(i) != null){
                 arr = arr.concat(tileMap.getTileInstances(i));
             }
@@ -97,32 +97,32 @@ class TileManager{
     public function getSnow(player:Player):Bool{
         var coords:FlxPoint = new FlxPoint(player.x + 32, player.y + 32);
         if(player.isRightPlayer){
-            if( Reg.rightPlayerSnow >= 30){
+            if( Reg.rightPlayerSnow >= 29){
                 return false;
             }
             var index:Int = rightDirt.getTileIndexByCoords(coords);
             if(rightDirt.getData()[index] > 1){
-                Reg.rightPlayerSnow ++;
+                Reg.rightPlayerSnow += 2;
                 rightDirt.setTileByIndex(index, rightDirt.getData()[index]-1);
                 return(true);
             }
             if(rightIce.getData()[index] > 1){
-                Reg.rightPlayerSnow ++;
+                Reg.rightPlayerSnow += 2;
                 rightIce.setTileByIndex(index, rightIce.getData()[index]-1);
                 return(true);
             }
         }else{
-            if( Reg.leftPlayerSnow >= 30){
+            if( Reg.leftPlayerSnow >= 29){
                 return false;
             }
             var index:Int = leftDirt.getTileIndexByCoords(coords);
             if(leftDirt.getData()[index] > 1){
-                Reg.leftPlayerSnow ++;
+                Reg.leftPlayerSnow += 2;
                 leftDirt.setTileByIndex(index, leftDirt.getData()[index]-1);
                 return(true);
             }
             if(leftIce.getData()[index] > 1){
-                Reg.leftPlayerSnow ++;
+                Reg.leftPlayerSnow += 2;
                 leftIce.setTileByIndex(index, leftIce.getData()[index]-1);
                 return(true);
             } 
@@ -140,5 +140,33 @@ class TileManager{
             return(leftIce.getData()[index] == 1);
         }
         
+    }
+
+    public function canGetSnow(player:Player):Bool{
+        var coords:FlxPoint = new FlxPoint(player.x + 32, player.y + 32);
+        if(player.isRightPlayer){
+            if( Reg.rightPlayerSnow >= 29){
+                return false;
+            }
+            var index:Int = rightDirt.getTileIndexByCoords(coords);
+            if(rightDirt.getData()[index] > 1){
+                return(true);
+            }
+            if(rightIce.getData()[index] > 1){
+                return(true);
+            }
+        }else{
+            if( Reg.leftPlayerSnow >= 29){
+                return false;
+            }
+            var index:Int = leftDirt.getTileIndexByCoords(coords);
+            if(leftDirt.getData()[index] > 1){
+                return(true);
+            }
+            if(leftIce.getData()[index] > 1){
+                return(true);
+            } 
+        }
+        return false;
     }
 }
