@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="BouncySnowballWars" file="BouncySnowballWars" main="Main" version="0.0.1" company="Hackerspace NTNU" />
+	<app title="Snowdown: Return of the balls" file="BouncySnowballWars" main="Main" version="1.0.0" company="Hackerspace NTNU" />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -77,6 +77,9 @@
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 
 	<!-- _________________________________ Custom _______________________________ -->
-
+	<icon path="icons/icon16.png" size="16" />
+	<icon path="icons/icon32.png" size="32" />
+	<icon path="icons/icon64.png" size="64" />
+	<icon path="icons/icon128.png" size="128" />
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
 </project>
